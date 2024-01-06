@@ -81,8 +81,18 @@ TIME_ZONE = 'Etc/GMT-2'
 
 USE_I18N = True
 
+
 USE_TZ = True
 
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_HOST = 'smtp.gmail.com'  # Choose smtp server
+EMAIL_HOST_USER = 'some_mail@gmail.com'  # Choose smtp mail
+EMAIL_HOST_PASSWORD = 'password'  # Choose smtp password
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# To write mail in console
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

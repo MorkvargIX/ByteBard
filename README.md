@@ -12,7 +12,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 ```
 
-Update var in blog/views/post_share.
+Update var in **blog/views/post_share**.
 ```python
 def post_share(request, post_id):
     # Code

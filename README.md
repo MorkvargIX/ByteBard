@@ -2,14 +2,20 @@ Install all requirements packages.
 ```bash
 pip install requirements
 ```
-
-For using form you must configure smtp server. Provide appropriate data in vars:
+The app is using a PostgreSQL database. If you want to utilize the database and SMTP, please create a **.config** file 
+and update the path reference in the settings.
 ```python
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'some_mail@gmail.com'
-EMAIL_HOST_PASSWORD = 'password'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+conf.read('/home/maks/proj/ByteBard/.config')
+```
+Please create the config file following the INI standard.
+```text
+[database]
+NAME = *name*
+USER = *user*
+PASSWORD = *password*
+
+[email]
+...
 ```
 
 Update var in **blog/views/post_share**.

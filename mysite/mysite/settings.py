@@ -1,6 +1,9 @@
+import configparser
 from pathlib import Path
 
 
+conf = configparser.ConfigParser()
+conf.read('/home/maks/proj/ByteBard/.config')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-12nwpfxmr0+t@vwnnf0oj*8vx_^o3@9qk96euq9-ycjsg4vjhp'
@@ -57,8 +60,10 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': conf.get('database', 'name'),
+        'USER': conf.get('database', 'user'),
+        'PASSWORD': conf.get('database', 'password'),
     }
 }
 
@@ -92,11 +97,11 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_HOST = 'smtp.gmail.com'  # Choose smtp server
-EMAIL_HOST_USER = 'some_mail@gmail.com'  # Choose smtp mail
-EMAIL_HOST_PASSWORD = 'password'  # Choose smtp password
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST = conf.get('email', 'host')
+EMAIL_HOST_USER = conf.get('email', 'host_user')
+EMAIL_HOST_PASSWORD = conf.get('email', 'host_password')
+EMAIL_PORT = conf.get('email', 'port')
+EMAIL_USE_TLS = conf.get('email', 'use_tls')
 
 # To write mail in console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -1,5 +1,6 @@
 from django.db.models import Count
 from django.core.mail import send_mail
+from django.conf import settings
 from django.views.generic import ListView
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, get_object_or_404
@@ -60,7 +61,7 @@ def post_share(request, post_id):
             post_url = request.build_absolute_uri(post.get_absolute_url())
             subject = f'{cd['name']} recommends you read {post.title}'
             message = f'Read {post.title} at {post_url}\n\n{cd['name']}\'s comments: {cd['comment']}'
-            send_mail(subject, message, 'some_mail@gmail.com', [cd['to']])
+            send_mail(subject, message, settings.EMAIL_HOST_USER, [cd['to']])
             sent = True
     else:
         form = EmailPostForm()

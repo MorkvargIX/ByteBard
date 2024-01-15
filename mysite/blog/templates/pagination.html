@@ -1,13 +1,19 @@
 <div class="pagination">
     <span class="step-links">
         {% if page.has_previous %}
-            <a href="?page={{ page.previous_page_number }}">Previous</a>
+            <a href="?page=1">&laquo; first</a>
         {% endif %}
-        <span class="current">
-            Page {{ page.number }} of {{ page.paginator.num_pages }}.
-        </span>
+
+        {% for i in page.paginator.page_range %}
+            {% if page.number == i %}
+                <span class="current">{{ i }}</span>
+            {% elif i > page.number|add:'-3' and i < page.number|add:'3' %}
+                <a href="?page={{ i }}">{{ i }}</a>
+            {% endif %}
+        {% endfor %}
+
         {% if page.has_next %}
-            <a href="?page={{ page.next_page_number }}">Next</a>
+            <a href="?page={{ page.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
 </div>

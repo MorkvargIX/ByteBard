@@ -1,6 +1,14 @@
+@font-face {
+    font-family: 'gunny';
+    src: url("ByteBard/mysite/blog/static/fonts/gunnyrewritten.woff2") format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 *{
     margin: 0;
     padding: 0;
+    font-family: 'gunny', sams-serif;
 }
 
 .main-blocks-wrapper{
@@ -8,6 +16,7 @@
     display: flex;
     flex-direction: column;
 }
+
 main{
     flex: 1 1 auto;
 }
@@ -16,6 +25,12 @@ main{
 /* header */
 .header-container{
     padding: 0 120px;
+}
+
+.header-search{
+    border-radius: 4px;
+    color: white;
+    background-color: white;
 }
 
 .p-3{
@@ -72,6 +87,10 @@ main{
     padding: 10px;
 }
 
+.border-post-elements h2{
+    font-size: 30px;
+}
+
 .post-statistic {
     list-style: none;
     padding: 0;
@@ -102,6 +121,20 @@ main{
 
 .post-statistic-link{
     font-size: 20px;
+}
+
+.pagination{
+    background-color: rgb(247, 245, 245);
+    display: flex;
+    justify-content: space-between;
+}
+
+.pagination a{
+    text-decoration: none;
+}
+
+.pagination-element{
+    padding-top: 10px;
 }
 
 .info-panel{

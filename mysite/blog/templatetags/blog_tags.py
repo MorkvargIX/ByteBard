@@ -29,3 +29,12 @@ def get_most_commented_posts(count=5):
 @register.filter(name='markdown')
 def markdown_format(text):
     return mark_safe(markdown.markdown(text))
+
+
+@register.filter(name='truncate_words')
+def truncate_words(value, num_words):
+    words = value.split()
+    if len(words) > num_words:
+        return ' '.join(words[:num_words]) + ' ...'
+    else:
+        return value

@@ -14,13 +14,14 @@ from .forms import EmailPostForm, CommentForm, SearchFrom
 
 
 def post_list(request, tag_slug=None):
-    post_list = Post.published.all()
+    all_posts = Post.published.all()
     all_tags = Tag.objects.all()
+    last_posts = all_posts[:2]
     tag = None
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
-        post_list = post_list.filter(tags__in=[tag])
-    paginator = Paginator(post_list, 6)
+        all_posts = all_posts.filter(tags__in=[tag])
+    paginator = Paginator(all_posts[2:], 6)
     page_number = request.GET.get('page', 1)
     try:
         posts = paginator.page(page_number)
@@ -28,7 +29,12 @@ def post_list(request, tag_slug=None):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
-    return render(request, 'blog/post/list.html', {'posts': posts, 'tag': tag, 'all_tags': all_tags})
+    return render(request, 'blog/post/list.html', {
+        'posts': posts,
+        'tag': tag,
+        'all_tags': all_tags,
+        'last_posts': last_posts
+    })
 
 
 def post_detail(request, id, slug):

@@ -2,11 +2,11 @@
 {% load blog_tags %}
 {% load static %}
 
-{% block title %}My Blog{% endblock %}
+{% block title %}ByteBard{% endblock %}
 
 {% block content %}
 <div>
-  <div class="blog-description-container">
+  <div class="blog-description-container text-bg-dark">
       <h1 class="blog-description">Welcome to the sanctuary of ideas. A place where words dance and imagination takes flight.</h1>
   </div>
 </div>
@@ -43,25 +43,32 @@
 
     <div class="row g-5">
     <div class="col-md-8">
-      <h3 class="pb-4 mb-4 fst-italic border-bottom">
-        Reflections Realm
+      <h3 class="pb-4 mb-4 fst-italic border-bottom rounded posts-main-header">
+        Reflections Realms
       </h3>
 
       {% for post in posts%}
-      <div class="blog-post">
-        <h2 class="display-5 link-body-emphasis mb-1">{{ post.title|title }}</h2>
-        <p class="blog-post-meta">{{ post.publish }} | <a href="#">{{ post.author }}</a></p>
-        <p>{{ post.body|markdown|truncatewords_html:60 }}</p>
+      <div class="blog-post rounded">
+        <div class="border-post-elements">
+          <h2 class="display-5 link-body-emphasis mb-1">{{ post.title|title }}</h2>
+          <p class="blog-post-meta">{{ post.publish }} | <a href="#">{{ post.author }}</a></p>
+          <p>{{ post.body|markdown|truncatewords_html:60 }}</p>
 
-        <ul class="post-statistic">
-          <li class="statistic-element"><img src="{% static 'logo/comment.svg' %}" alt="#comment" width="20" height="20">: 0</li>
-          <li class="statistic-element"><img src="{% static 'logo/like.svg' %}" alt="#comment" width="20" height="20">: 0</li>
-          <li class="statistic-element"><img src="{% static 'logo/dislike.svg' %}" alt="#comment" width="20" height="20">: 0</li>
-        </ul>
+          <div class="post-statistic-wrapper">
+            <ul class="post-statistic post-statistic-element">
+              <li class="statistic-element"><img src="{% static 'logo/comment.svg' %}" alt="#comment" width="20" height="20">: 0</li>
+              <li class="statistic-element"><img src="{% static 'logo/like.svg' %}" alt="#comment" width="20" height="20">: 0</li>
+              <li class="statistic-element"><img src="{% static 'logo/dislike.svg' %}" alt="#comment" width="20" height="20">: 0</li>
+            </ul>
+            <div class="post-statistic-element post-statistic-link">
+              <a href="{{ post.get_absolute_url }}" class="icon-link gap-1 icon-link-hover">
+                  Continue reading →
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-      <a href="{{ post.get_absolute_url }}" class="icon-link gap-1 icon-link-hover">
-            Continue reading →
-        </a>
+
       {% endfor %}
 
 
@@ -76,11 +83,11 @@
           <p class="mb-0">Stay updated on the latest trends and innovations in web development. Explore the ever-evolving landscape of technology and its impact on our digital world.</p>
         </div>
 
-        <div>
-          <h4 class="fst-italic">Recent posts</h4>
+        <div class="info-panel rounded">
+          <h4 class="fst-italic info-panel-name">Recent posts</h4>
           <ul class="list-unstyled">
             <li>
-              <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+              <a class=" info-panel-element d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top rounded" href="#">
                 <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
                 <div class="col-lg-8">
                   <h6 class="mb-0">Example blog post title</h6>
@@ -89,7 +96,7 @@
               </a>
             </li>
             <li>
-              <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+              <a class=" info-panel-element d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
                 <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
                 <div class="col-lg-8">
                   <h6 class="mb-0">This is another blog post title</h6>
@@ -98,7 +105,7 @@
               </a>
             </li>
             <li>
-              <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+              <a class=" info-panel-element d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
                 <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
                 <div class="col-lg-8">
                   <h6 class="mb-0">Longer blog post title: This one has multiple lines!</h6>
@@ -109,7 +116,7 @@
           </ul>
         </div>
 
-        <div class="p-4">
+        <div class="p-4 rounded archive-block">
           <h4 class="fst-italic">Archives</h4>
           <ol class="list-unstyled mb-0">
             <li><a href="#">March 2021</a></li>
@@ -127,7 +134,7 @@
           </ol>
         </div>
 
-        <div class="p-4">
+        <div class="p-4 else-block rounded">
           <h4 class="fst-italic">Elsewhere</h4>
           <ol class="list-unstyled">
             <li><a href="https://github.com/MorkvargIX">GitHub</a></li>

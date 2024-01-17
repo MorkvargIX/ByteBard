@@ -1,0 +1,39 @@
+{% extends 'blog/login_template.html' %}
+
+{% load static %}
+
+{% block title %}User registration{% endblock %}
+
+{% block content%}
+    <div class="registration-block rounded">
+        <h2>Registration Form</h2>
+        <form action="{% url 'blog:user_registration' %}" method="post">
+            {% csrf_token %}
+            <div class="registration-form-wrapper">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.username.errors }}
+
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {{ form.email.errors }}
+
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+                {{ form.password1.errors }}
+
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+
+                <input type="submit" value="Register" class="registration-button">
+
+            </div>
+
+        </form>
+    </div>
+
+    <div class="login-url rounded">
+        <p>Already registered? <a href="{% url 'blog:post_list' %}">Log in</a></p>
+    </div>
+{% endblock %}

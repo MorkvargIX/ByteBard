@@ -1,16 +1,16 @@
 from django.conf import settings
 from django.db.models import Count
 from django.core.mail import send_mail
-from django.views.generic import ListView
+from django.contrib.auth import login
 from django.views.decorators.http import require_POST
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.postgres.search import SearchVector
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from taggit.models import Tag
 
 from .models import Post
-from .forms import EmailPostForm, CommentForm, SearchFrom
+from .forms import EmailPostForm, CommentForm, SearchFrom, UserCreationForm
 
 
 def post_list(request, tag_slug=None):
@@ -102,3 +102,17 @@ def post_search(request):
             query = form.cleaned_data['query']
             results = Post.published.annotate(search=SearchVector('title', 'body'),).filter(search=query)
     return render(request, 'blog/post/search.html', {'form': form, 'query': query, 'results': results})
+
+
+def user_registration(request):
+    if request.method == 'POST':
+        form = UserCreationForm(data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('blog:post_list')
+    else:
+        form = UserCreationForm()
+    return render(request, 'blog/post/registration.html', {'form': form})
+
+

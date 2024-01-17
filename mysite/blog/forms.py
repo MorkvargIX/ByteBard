@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import BaseUserCreationForm
 from .models import Comment
 
 
@@ -17,4 +18,9 @@ class CommentForm(forms.ModelForm):
 
 class SearchFrom(forms.Form):
     query = forms.CharField()
+
+
+class UserCreationForm(BaseUserCreationForm):
+    class Meta(BaseUserCreationForm.Meta):
+        fields = ['username', 'email', 'password1', 'password2']
 

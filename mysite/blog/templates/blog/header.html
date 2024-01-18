@@ -1,7 +1,6 @@
 {% load static %}
 
 <header class="p-3 text-bg-dark">
-  <p>{{ request.user }}</p>
         <div class="header-container">
           <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="{% url 'blog:post_list' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
@@ -21,8 +20,25 @@
             </form>
 
             <div class="text-end">
-              <button type="button" class="btn btn-outline-light me-2">Login</button>
-              <a href="{% url 'blog:user_registration' %}"><button type="button" class="btn btn-warning">Sign-up</button></a>
+
+              {% if request.user.is_authenticated %}
+                <div class="my-dropdown">
+                  <a href="#" class="my-dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      <img src="{% static 'img/standard_user_icon.png' %}" alt="#user_icon" width="32" height="32" class="rounded-circle">
+                      <span class="arrow-down">&#9660;</span>
+                  </a>
+                  <ul class="my-dropdown-menu">
+                      <li><a class="my-dropdown-item" href="#">New project</a></li>
+                      <li><a class="my-dropdown-item" href="#">Settings</a></li>
+                      <li><a class="my-dropdown-item" href="#">Profile</a></li>
+                      <li><hr class="my-dropdown-divider"></li>
+                      <li><a class="my-dropdown-item" href="#">Log out</a></li>
+                  </ul>
+                </div>
+              {% else %}
+                <a href="{% url 'blog:user_login' %}"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
+                <a href="{% url 'blog:user_registration' %}"><button type="button" class="btn btn-warning">Sign-up</button></a>
+              {% endif %}
             </div>
           </div>
         </div>

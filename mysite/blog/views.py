@@ -10,7 +10,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from taggit.models import Tag
 
 from .models import Post
-from .forms import EmailPostForm, CommentForm, SearchFrom, UserCreationForm
+from .forms import EmailPostForm, CommentForm, SearchFrom, UserCreationForm, UserLoginForm
 
 
 def post_list(request, tag_slug=None):
@@ -115,4 +115,15 @@ def user_registration(request):
         form = UserCreationForm()
     return render(request, 'blog/post/registration.html', {'form': form})
 
+
+def user_login(request):
+    if request.method == 'POST':
+        form = UserLoginForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('blog:post_list')
+    else:
+        form = UserLoginForm()
+    return render(request, 'blog/post/login.html', {'form': form})
 

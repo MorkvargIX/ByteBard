@@ -41,7 +41,114 @@ main{
     margin-left: 30px;
 }
 
-/* logo header*/
+.my-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.my-dropdown-toggle {
+    color: white;
+}
+
+.my-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    float: left;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 1rem;
+    color: #fff;
+    text-align: left;
+    list-style: none;
+    background-color: #343a40;
+    border: 1px solid #6c757d;
+    border-radius: 0.25rem;
+    animation: fadeInUp 0.3s ease;
+}
+
+.my-dropdown:hover .my-dropdown-menu {
+    display: block;
+}
+
+.my-dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #fff;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    animation: fadeInUp 0.3s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.my-dropdown:hover .my-dropdown-item {
+    animation: fadeInUp 0.3s ease;
+}
+
+.my-dropdown-item{
+    text-decoration: none;
+}
+
+.my-dropdown-item:hover {
+    background-color: #495057;
+    text-decoration: none;
+    animation: none;
+}
+
+.my-dropdown-divider {
+    height: 0.0625rem;
+    margin: 0.5rem 0;
+    overflow: hidden;
+    background-color: #6c757d;
+}
+
+
+.arrow-down {
+    position: absolute;
+    top: 50%;
+    padding-left: 4px;
+    padding-top: 6px;
+    transform: translateY(-60%);
+    font-size: 0.7em;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+
+.my-dropdown.open .arrow-down {
+    animation: fade .9s ease;
+    opacity: 0;
+}
+
+
+/* login header */
  .registration-header {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

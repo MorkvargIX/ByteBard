@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import BaseUserCreationForm
+from django.contrib.auth.forms import BaseUserCreationForm, AuthenticationForm
 from .models import Comment
 
 
@@ -24,3 +24,6 @@ class UserCreationForm(BaseUserCreationForm):
     class Meta(BaseUserCreationForm.Meta):
         fields = ['username', 'email', 'password1', 'password2']
 
+
+class UserLoginForm(AuthenticationForm):
+    pass

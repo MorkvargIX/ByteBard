@@ -55,11 +55,7 @@
           <p>{{ post.body|markdown|truncatewords_html:60 }}</p>
 
           <div class="post-statistic-wrapper">
-            <ul class="post-statistic post-statistic-element">
-              <li class="statistic-element"><img src="{% static 'logo/comment.svg' %}" alt="#comment" width="20" height="20">: 0</li>
-              <li class="statistic-element"><img src="{% static 'logo/like.svg' %}" alt="#comment" width="20" height="20">: 0</li>
-              <li class="statistic-element"><img src="{% static 'logo/dislike.svg' %}" alt="#comment" width="20" height="20">: 0</li>
-            </ul>
+            {% include "blog/post/includes/post_info.html" %}
             <div class="post-statistic-element post-statistic-link">
               <a href="{{ post.get_absolute_url }}" class="icon-link gap-1 icon-link-hover">
                   Continue reading →

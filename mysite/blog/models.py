@@ -58,3 +58,37 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.id}. Comment by {self.name} on {self.post}'
+
+
+class Like(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created']
+        indexes = [
+            models.Index(fields=['-created']),
+            models.Index(fields=['post']),
+        ]
+        unique_together = [['post', 'user']]
+
+    def __str__(self):
+        return f'{self.user.username} liked: post - {self.post.title}'
+
+
+class Dislike(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='dislikes')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='dislikes')
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created']
+        indexes = [
+            models.Index(fields=['-created']),
+            models.Index(fields=['post']),
+        ]
+        unique_together = [['post', 'user']]
+
+    def __str__(self):
+        return f'{self.user.username} disliked: post - {self.post.title}'

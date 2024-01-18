@@ -283,29 +283,46 @@ input[type="submit"]{
 }
 
 .statistic-element {
-    display: inline-block;
-    margin-right: 10px;
+    display: flex;
+    align-items: center;
     font-size: 16px;
     color: #333;
 }
 
-.statistic-element::before {
-    content: ' ';
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
-    background-repeat: no-repeat;
+.statistic-element p {
+    margin-left: 3px;
+    padding-top: 18px;
 }
 
-.post-statistic-wrapper{
+.post-statistic-wrapper {
     display: flex;
     justify-content: space-between;
     max-width: 700px;
+    padding-left: 20px;
+    list-style-type: none;
 }
 
-.post-statistic-link{
+.post-statistic-element {
+    display: flex;
+    align-items: center;
+}
+
+.post-statistic-link {
     font-size: 20px;
+}
+
+.like-elements{
+    padding-left: 30px;
+}
+
+.like-elements p{
+    pointer-events: none;
+}
+
+.post-active-elements:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+    fill: #ff0000;
 }
 
 .pagination{

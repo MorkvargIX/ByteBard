@@ -1,0 +1,16 @@
+{% load static %}
+
+<ul class="post-statistic post-statistic-element">
+  <li class="statistic-element">
+      <img src="{% static 'logo/comment.svg' %}" alt="#comment" width="20" height="20" class="post-active-elements">
+      <p class="active-element-counter"> {{ post.comments.count }}</p>
+  </li>
+  <li class="statistic-element like-elements">
+      <img src="{% static 'logo/like.svg' %}" alt="#comment" width="20" height="20" class="post-active-elements">
+      <p class="active-element-counter">{{ post.likes.count }}</p>
+  </li>
+  <li class="statistic-element like-elements">
+      <img src="{% static 'logo/dislike.svg' %}" alt="#comment" width="20" height="20" class="post-active-elements">
+      <p class="active-element-counter">{{ post.dislikes.count }}</p>
+  </li>
+</ul>

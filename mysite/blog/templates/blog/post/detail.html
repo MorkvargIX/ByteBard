@@ -21,14 +21,7 @@
             {% endif %}
         </div>
 
-        <ul class="post-statistic post-statistic-element">
-          {% with comments.count as total_comments %}
-            <li class="statistic-element"><img src="{% static 'logo/comment.svg' %}" alt="#comment" width="20" height="20">: {{ total_comments }}</li>
-          {% endwith %}
-          <li class="statistic-element"><img src="{% static 'logo/like.svg' %}" alt="#comment" width="20" height="20">: 0</li>
-          <li class="statistic-element"><img src="{% static 'logo/dislike.svg' %}" alt="#comment" width="20" height="20">: 0</li>
-          <li class="statistic-element"><a href="{% url 'blog:post_share' post.id %}" style="text-decoration: none;"><img src="{% static 'img/share.svg' %}" alt="#share" width="20" height="20"></a></li>
-        </ul>
+        {% include "blog/post/includes/post_info.html" %}
     </div>
 
     <div class="post-comments rounded">

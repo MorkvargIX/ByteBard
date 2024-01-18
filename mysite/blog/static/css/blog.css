@@ -27,6 +27,10 @@ main{
     padding: 0 120px;
 }
 
+.logo-text{
+    padding-left: 8px;
+}
+
 .header-search{
     border-radius: 4px;
     color: white;
@@ -48,6 +52,7 @@ main{
 
 .my-dropdown-toggle {
     color: white;
+    padding: 10px;
 }
 
 .my-dropdown-menu {
@@ -113,14 +118,6 @@ main{
     animation: none;
 }
 
-.my-dropdown-divider {
-    height: 0.0625rem;
-    margin: 0.5rem 0;
-    overflow: hidden;
-    background-color: #6c757d;
-}
-
-
 .arrow-down {
     position: absolute;
     top: 50%;
@@ -132,20 +129,6 @@ main{
     transition: opacity 0.3s ease;
 }
 
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}
-
-
-.my-dropdown.open .arrow-down {
-    animation: fade .9s ease;
-    opacity: 0;
-}
 
 
 /* login header */
@@ -361,7 +344,7 @@ input[type="submit"]{
     background-color: rgb(247, 245, 245);
 }
 
-/* detail post */
+/* post detail */
 .post-detail-wrapper{
     padding: 15px;
     margin-right: auto;
@@ -447,7 +430,7 @@ input[type="submit"]{
 }
 
 .comment-form button {
-    background-color: #4CAF50;
+    background-color: rgb(70, 102, 156);
     color: white;
     padding: 10px 15px;
     border: none;
@@ -456,9 +439,14 @@ input[type="submit"]{
 }
 
 .comment-form button:hover {
-    background-color: #45a049;
+    background-color: rgb(57, 77, 110);
 }
 
+.comment-register-text{
+    text-align: center;
+    padding-bottom: 12px;
+    color: #777;
+}
 
 /* footer */
 .footer-container{

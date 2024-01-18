@@ -1,8 +1,10 @@
+from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.db.models import Count
 from django.core.mail import send_mail
 from django.contrib.auth import login
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.postgres.search import SearchVector
@@ -10,7 +12,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from taggit.models import Tag
 
-from .models import Post
+from .models import Post, Like, Dislike
 from .forms import EmailPostForm, CommentForm, SearchFrom, UserCreationForm, UserLoginForm
 
 
@@ -132,3 +134,33 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('blog:post_list')
+
+
+@require_POST
+def post_like(request, post_id):
+    if not request.user.is_authenticated:
+        return JsonResponse({'redirect_url': '/login/'})
+    post = get_object_or_404(Post, pk=post_id)
+    user = request.user
+    like, created = Like.objects.get_or_create(post=post, user=user)
+
+    if not created:
+        like.delete()
+
+    likes_count = post.likes.count()
+    return JsonResponse({'likes_count': likes_count})
+
+
+@require_POST
+def post_dislike(request, post_id):
+    if not request.user.is_authenticated:
+        return JsonResponse({'redirect_url': '/login/'})
+    post = get_object_or_404(Post, pk=post_id)
+    user = request.user
+    dislike, created = Dislike.objects.get_or_create(post=post, user=user)
+
+    if not created:
+        dislike.delete()
+
+    dislikes_count = post.dislikes.count()
+    return JsonResponse({'dislikes_count': dislikes_count})

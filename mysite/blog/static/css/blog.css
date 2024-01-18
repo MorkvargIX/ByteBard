@@ -325,6 +325,13 @@ input[type="submit"]{
     fill: #ff0000;
 }
 
+#likeButton {
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+
 .pagination{
     background-color: rgb(247, 245, 245);
     display: flex;

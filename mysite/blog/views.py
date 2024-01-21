@@ -20,7 +20,6 @@ def post_list(request, tag_slug=None):
     all_posts = Post.published.all()
     all_tags = Tag.objects.all()
     best_blogs = Post.best_posts.all()[:3]
-    print(best_blogs)
     last_posts = None
     tag = None
     if tag_slug:

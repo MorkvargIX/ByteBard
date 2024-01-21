@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import F, Sum
+from django.db.models import F, Sum, Count, ExpressionWrapper
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -13,7 +13,23 @@ class PublishedManager(models.Manager):
 
 class BestPostsManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(status=Post.Status.PUBLISHED).annotate(total_score=Sum(F('comments') + F('likes') + F('dislikes'))).order_by('-total_score')
+        return (
+            super()
+            .get_queryset()
+            .filter(status=Post.Status.PUBLISHED)
+            .annotate(
+                total_comments=Count('comments', distinct=True),
+                total_likes=Count('likes', distinct=True),
+                total_dislikes=Count('dislikes', distinct=True)
+            )
+            .annotate(
+                total_score=ExpressionWrapper(
+                    F('total_comments') + F('total_likes') - F('total_dislikes'),
+                    output_field=models.IntegerField()
+                )
+            )
+            .order_by('-total_score')
+        )
 
 
 class Post(models.Model):

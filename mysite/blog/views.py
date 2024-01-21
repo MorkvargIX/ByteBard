@@ -19,23 +19,29 @@ from .forms import EmailPostForm, CommentForm, SearchFrom, UserCreationForm, Use
 def post_list(request, tag_slug=None):
     all_posts = Post.published.all()
     all_tags = Tag.objects.all()
-    last_posts = all_posts[:2]
+    best_blogs = Post.best_posts.all()[:3]
+    print(best_blogs)
+    last_posts = None
     tag = None
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
         all_posts = all_posts.filter(tags__in=[tag])
-    paginator = Paginator(all_posts[2:], 6)
+        paginator = Paginator(all_posts[:], 6)
+    else:
+        last_posts = all_posts[:2]
+        paginator = Paginator(all_posts[2:], 6)
     page_number = request.GET.get('page', 1)
     try:
-        posts = paginator.page(page_number)
+        all_posts = paginator.page(page_number)
     except PageNotAnInteger:
-        posts = paginator.page(1)
+        all_posts = paginator.page(1)
     except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
+        all_posts = paginator.page(paginator.num_pages)
     return render(request, 'blog/post/list.html', {
-        'posts': posts,
+        'all_posts': all_posts,
         'tag': tag,
         'all_tags': all_tags,
+        'best_blogs': best_blogs,
         'last_posts': last_posts
     })
 

@@ -6,7 +6,7 @@
 
 {% block content%}
     <div class="registration-block rounded">
-        <h2>Registration Form</h2>
+        <h2>Login Form</h2>
         <form action="{% url 'blog:user_login' %}" method="post">
             {% csrf_token %}
             <div class="registration-form-wrapper">
@@ -23,5 +23,9 @@
             </div>
 
         </form>
+    </div>
+
+    <div class="login-url rounded">
+        <p>You don't have an account? <a href="{% url 'blog:user_registration' %}">Sign up</a></p>
     </div>
 {% endblock %}

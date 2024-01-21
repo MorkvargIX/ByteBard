@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F, Sum
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -8,6 +9,11 @@ from taggit.managers import TaggableManager
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(status=Post.Status.PUBLISHED)
+
+
+class BestPostsManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Post.Status.PUBLISHED).annotate(total_score=Sum(F('comments') + F('likes') + F('dislikes'))).order_by('-total_score')
 
 
 class Post(models.Model):
@@ -25,6 +31,7 @@ class Post(models.Model):
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT)
     objects = models.Manager()
     published = PublishedManager()
+    best_posts = BestPostsManager()
     tags = TaggableManager()
 
     class Meta:

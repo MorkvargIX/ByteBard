@@ -5,12 +5,6 @@
 {% block title %}ByteBard{% endblock %}
 
 {% block content %}
-<div>
-  <div class="blog-description-container text-bg-dark">
-      <h1 class="blog-description">Welcome to the sanctuary of ideas. A place where words dance and imagination takes flight.</h1>
-  </div>
-</div>
-
 
 <main class="container">
     <div class="row mb-2 recent-post">
@@ -47,7 +41,7 @@
         Reflections Realms
       </h3>
 
-      {% for post in posts%}
+      {% for post in all_posts %}
       <div class="blog-post rounded">
         <div class="border-post-elements">
           <h2 class="display-5 link-body-emphasis mb-1 post-title">{{ post.title|title }}</h2>
@@ -83,13 +77,13 @@
 
           <h4 class="fst-italic info-panel-name">Best blogs</h4>
           <ul class="list-unstyled">
-            {% for post in posts|slice:':3' %}
+            {% for blog in best_blogs %}
             <li>
-              <a class=" info-panel-element d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top rounded" href="#">
+              <a href="{{ blog.get_absolute_url }}" class=" info-panel-element d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top rounded">
                 <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
                 <div class="col-lg-8">
-                  <h6 class="mb-0">{{ post.title }}</h6>
-                  <small class="text-body-secondary">{{ post.publish }}</small>
+                  <h6 class="mb-0">{{ blog.title }}</h6>
+                  <small class="text-body-secondary">{{ blog.publish }}</small>
                 </div>
               </a>
             </li>
@@ -101,7 +95,7 @@
           <h4 class="fst-italic">Tags</h4>
           <p>
             {% for tag in all_tags %}
-            <a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name|title }}</a>,
+              <a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name|title }}</a>,
             {% endfor %}
           </p>
         </div>

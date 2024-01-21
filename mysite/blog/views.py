@@ -83,22 +83,6 @@ def post_share(request, post_id):
     return render(request, 'blog/post/share.html', {'post': post, 'form': form, 'sent': sent})
 
 
-@require_POST
-def post_comment(request, post_id):
-    post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
-    comment = None
-    form = CommentForm(data=request.POST)
-    if form.is_valid():
-        comment = form.save(commit=False)
-        comment.post = post
-        comment.save()
-    return render(request, 'blog/post/comment.html', {
-        'post': post,
-        'form': form,
-        'comment': comment
-    })
-
-
 def post_search(request):
     form = SearchFrom()
     query = None
@@ -139,6 +123,22 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('blog:post_list')
+
+
+@login_required
+@require_POST
+def post_comment(request, post_id):
+    post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
+    user = request.user
+    comment = None
+    form = CommentForm(data=request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.post = post
+        comment.author = request.user
+        comment.save()
+        return JsonResponse({'username': user.username, 'publish': comment.created})
+    return JsonResponse({'error': 'Invalid form data'})
 
 
 @require_POST

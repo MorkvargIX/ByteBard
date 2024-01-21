@@ -236,8 +236,6 @@ input[type="submit"]{
 }
 
 /* post list */
-
-
 .border{
     background-color: rgb(247, 245, 245);
 }
@@ -435,16 +433,15 @@ input[type="submit"]{
   margin: 0;
 }
 
-.comment-form {
-    margin-top: 15px;
-}
-
-.comment-form input,
-.comment-form textarea {
+.comment-form{
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
     box-sizing: border-box;
+}
+
+.comment-form-input{
+    height: 90px;
 }
 
 .comment-form button {

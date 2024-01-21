@@ -8,14 +8,14 @@
   <li class="statistic-element like-elements">
       <form method="post" action="{% url 'blog:post_like' post.id %}">
         {% csrf_token %}
-        <img src="{% static 'logo/like.svg' %}" alt="#like" width="20" height="20" class="post-active-elements like-button" data-post-id="{{ post.id }}" data-is-authenticated="{{ request.user.is_authenticated }}">
+        <img src="{% static 'logo/like.svg' %}" alt="#like" width="20" height="20" class="post-active-elements like-button" data-post-id="{{ post.id }}">
       </form>
       <p class="active-element-counter like-text">{{ post.likes.count }}</p>
   </li>
   <li class="statistic-element like-elements">
       <form method="post" action="{% url 'blog:post_like' post.id %}">
         {% csrf_token %}
-        <img src="{% static 'logo/dislike.svg' %}" alt="#dislike" width="20" height="20" class="post-active-elements dislike-button" data-post-id="{{ post.id }}" data-is-authenticated="{{ request.user.is_authenticated }}">
+        <img src="{% static 'logo/dislike.svg' %}" alt="#dislike" width="20" height="20" class="post-active-elements dislike-button" data-post-id="{{ post.id }}">
       </form>
       <p class="active-element-counter dislike-text">{{ post.dislikes.count }}</p>
   </li>

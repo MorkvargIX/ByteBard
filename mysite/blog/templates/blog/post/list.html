@@ -36,80 +36,80 @@
         </div>
 
     <div class="row g-5">
-    <div class="col-md-8">
-      <h3 class="pb-4 mb-4 fst-italic border-bottom rounded posts-main-header">
-        Reflections Realms
-      </h3>
+      <div class="col-md-8">
+        <h3 class="pb-4 mb-4 border-bottom rounded posts-main-header">
+          Reflections Realms
+        </h3>
 
-      {% for post in all_posts %}
-      <div class="blog-post rounded">
-        <div class="border-post-elements">
-          <h2 class="display-5 link-body-emphasis mb-1 post-title">{{ post.title|title }}</h2>
-          <p class="blog-post-meta">{{ post.publish }} | <a href="#">{{ post.author }}</a></p>
-          <p>{{ post.body|markdown|truncatewords_html:60 }}</p>
+        {% for post in all_posts %}
+        <div class="blog-post rounded">
+          <div class="border-post-elements">
+            <h2 class="display-5 link-body-emphasis mb-1 post-title">{{ post.title|title }}</h2>
+            <p class="blog-post-meta">{{ post.publish }} | <a href="#">{{ post.author }}</a></p>
+            <p>{{ post.body|markdown|truncatewords_html:60 }}</p>
 
-          <div class="post-statistic-wrapper">
-            {% include "blog/post/includes/post_info.html" %}
-            <div class="post-statistic-element post-statistic-link">
-              <a href="{{ post.get_absolute_url }}" class="icon-link gap-1 icon-link-hover">
-                  Continue reading →
-              </a>
+            <div class="post-statistic-wrapper">
+              {% include "blog/post/includes/post_info.html" %}
+              <div class="post-statistic-element post-statistic-link">
+                <a href="{{ post.get_absolute_url }}" class="icon-link gap-1 icon-link-hover">
+                    Continue reading →
+                </a>
+              </div>
             </div>
           </div>
         </div>
+
+        {% endfor %}
+
+
+        {% include "pagination.html" with page=posts %}
+
       </div>
 
-      {% endfor %}
+      <div class="col-md-4">
+        <div class="position-sticky" style="top: 2rem;">
+          <div class="p-4 mb-3 bg-body-tertiary rounded">
+            <h4>About</h4>
+            <p class="mb-0">Stay updated on the latest trends and innovations in web development. Explore the ever-evolving landscape of technology and its impact on our digital world.</p>
+          </div>
 
+          <div class="info-panel rounded">
 
-      {% include "pagination.html" with page=posts %}
+            <h4 class="info-panel-name">Best blogs</h4>
+            <ul class="list-unstyled">
+              {% for blog in best_blogs %}
+              <li>
+                <a href="{{ blog.get_absolute_url }}" class=" info-panel-element d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top rounded">
+                  <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+                  <div class="col-lg-8">
+                    <h6 class="mb-0">{{ blog.title }}</h6>
+                    <small class="text-body-secondary">{{ blog.publish }}</small>
+                  </div>
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
 
-    </div>
+          <div class="p-4 rounded archive-block">
+            <h4>Tags</h4>
+            <p>
+              {% for tag in all_tags %}
+                <a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name|title }}</a>,
+              {% endfor %}
+            </p>
+          </div>
 
-    <div class="col-md-4">
-      <div class="position-sticky" style="top: 2rem;">
-        <div class="p-4 mb-3 bg-body-tertiary rounded">
-          <h4 class="fst-italic">About</h4>
-          <p class="mb-0">Stay updated on the latest trends and innovations in web development. Explore the ever-evolving landscape of technology and its impact on our digital world.</p>
-        </div>
-
-        <div class="info-panel rounded">
-
-          <h4 class="fst-italic info-panel-name">Best blogs</h4>
-          <ul class="list-unstyled">
-            {% for blog in best_blogs %}
-            <li>
-              <a href="{{ blog.get_absolute_url }}" class=" info-panel-element d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top rounded">
-                <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
-                <div class="col-lg-8">
-                  <h6 class="mb-0">{{ blog.title }}</h6>
-                  <small class="text-body-secondary">{{ blog.publish }}</small>
-                </div>
-              </a>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-
-        <div class="p-4 rounded archive-block">
-          <h4 class="fst-italic">Tags</h4>
-          <p>
-            {% for tag in all_tags %}
-              <a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name|title }}</a>,
-            {% endfor %}
-          </p>
-        </div>
-
-        <div class="p-4 else-block rounded">
-          <h4 class="fst-italic">Elsewhere</h4>
-          <ol class="list-unstyled">
-            <li><a href="https://github.com/MorkvargIX">GitHub</a></li>
-            <li><a href="https://leetcode.com/MorkvargIX/">Leetcode</a></li>
-            <li><a href="https://www.linkedin.com/in/morkvargix/">Linkedin</a></li>
-          </ol>
+          <div class="p-4 else-block rounded">
+            <h4>Elsewhere</h4>
+            <ol class="list-unstyled">
+              <li><a href="https://github.com/MorkvargIX">GitHub</a></li>
+              <li><a href="https://leetcode.com/MorkvargIX/">Leetcode</a></li>
+              <li><a href="https://www.linkedin.com/in/morkvargix/">Linkedin</a></li>
+            </ol>
+          </div>
         </div>
       </div>
-    </div>
   </div>
  </main>
 

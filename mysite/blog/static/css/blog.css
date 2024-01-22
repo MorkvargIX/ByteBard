@@ -45,10 +45,6 @@ main{
     background-color: white;
 }
 
-.p-3{
-    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.3);
-}
-
 .navigator-toolbar{
     margin-left: 30px;
 }

@@ -6,7 +6,7 @@ conf = configparser.ConfigParser()
 conf.read('/home/maks/proj/ByteBard/.config')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-12nwpfxmr0+t@vwnnf0oj*8vx_^o3@9qk96euq9-ycjsg4vjhp'
+SECRET_KEY = 'django-insecure-1q9-ycjsg42rvwnnnwpfxm0otfj0+@9qk96@*8vx_^o3euvjhp'
 
 DEBUG = True
 

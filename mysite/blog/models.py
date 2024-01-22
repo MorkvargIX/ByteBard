@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import F, Sum, Count, ExpressionWrapper
+from django.db.models import F, Count, ExpressionWrapper
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse

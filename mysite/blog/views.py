@@ -96,6 +96,11 @@ def post_search(request):
     return render(request, 'blog/post/search.html', {'form': form, 'query': query, 'results': results})
 
 
+@login_required(login_url='blog:user_login')
+def post_create(request):
+    return render(request, 'blog/post/create.html')
+
+
 def user_registration(request):
     if request.method == 'POST':
         form = UserCreationForm(data=request.POST)

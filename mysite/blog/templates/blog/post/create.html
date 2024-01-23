@@ -11,28 +11,28 @@
             <h5 class="p-3 mb-3 fst-italic border-bottom rounded bg-white">
                 Creation post
             </h5>
-            <div class="p-4 rounded bg-white pb-4 mb-4">
-                <textarea class="border-0 w-100 mb-1 pt-0 text-center" placeholder="Write title" style="font-size: 25px; height: 40px; outline: none;"></textarea>
+            <div class="p-4 rounded bg-white pb-4 mb-4 custom-editor-container">
+                <div contenteditable="true" id="textBlock" class="border w-100 mb-1 pt-0 text-center custom-editor-title" style="font-size: 25px;" data-placeholder="Write title"></div>
+                <div id="imageBlock" class=""></div>
                 <hr>
-                <textarea class="border-0 w-100 no-border" placeholder="Write something" style="height: 500px; outline: none;"></textarea>
+                <div contenteditable="true" id="editorContent" class="border w-100 no-border custom-editor-content" data-placeholder="Write post"></div>
+                <button id="insertButton">Insert</button>
             </div>
             <div class="p-2 rounded bg-white pb-4 mb-4 ml-auto text-center">
-                <button type="submit" class="registration-button w-50">Create</button>
+                <button type="button" id="insertImagesBtn" class="registration-button w-50">Create</button>
             </div>
         </div>
         <div class="col-md-4">
             <div class="position-sticky" style="top: 2rem;">
-
                 <div class="p-4 mb-2 bg-white rounded">
-                  <h4>Recent posts</h4>
+                    <h4>Recent posts</h4>
                 </div>
-
                 <div class="p-3 mb-2 bg-white rounded">
-                  <h4>Archives</h4>
-                </div>
-
-              </div>
+                    <h4>Archives</h4>
                 </div>
             </div>
+        </div>
+    </div>
 </main>
+
 {% endblock %}

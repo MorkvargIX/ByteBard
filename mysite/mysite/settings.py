@@ -6,7 +6,7 @@ conf = configparser.ConfigParser()
 conf.read('/home/maks/proj/ByteBard/.config')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-1q9-ycjsg42rvwnnnwpfxm0otfj0+@9qk96@*8vx_^o3euvjhp'
+SECRET_KEY = 'django-insecure-1q9-_^o3euv@ycwnnnwqk96pfxmjsg42ot+rv0@9fj0vx*8jhp'
 
 DEBUG = True
 
@@ -22,10 +22,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
-    'taggit',
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.postgres',
+    'taggit',
+    'martor',
 ]
 
 MIDDLEWARE = [

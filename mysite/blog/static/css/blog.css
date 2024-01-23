@@ -314,10 +314,10 @@ input[type="submit"]{
 }
 
 #likeButton {
-  border: none;
-  padding: 0;
-  background: none;
-  cursor: pointer;
+    border: none;
+    padding: 0;
+    background: none;
+    cursor: pointer;
 }
 
 .pagination{
@@ -354,6 +354,42 @@ input[type="submit"]{
 
 .else-block{
     background-color: rgb(247, 245, 245);
+}
+
+/* post create */
+.custom-editor-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: auto;
+}
+
+.custom-editor-title,
+.custom-editor-content {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    min-height: 40px;
+    height: auto;
+    outline: none;
+}
+
+.custom-editor-content {
+    min-height: 700px;
+    position: relative;
+}
+
+#editorContent {
+    flex-grow: 1;
+}
+
+.image-container {
+  position: relative;
+  text-align: center;
+}
+
+.text-block {
+  outline: none;
 }
 
 /* post detail */

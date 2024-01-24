@@ -6,7 +6,7 @@ conf = configparser.ConfigParser()
 conf.read('/home/maks/proj/ByteBard/.config')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-1q9-_^o3euv@ycwnnnwqk96pfxmjsg42ot+rv0@9fj0vx*8jhp'
+SECRET_KEY = conf.get('server', 'secret_key')
 
 DEBUG = True
 
@@ -85,6 +85,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+MARTOR_THEME = 'bootstrap'
+
+MARTOR_IMGUR_CLIENT_ID = conf.get('martor', 'imgur_client_id')
+MARTOR_IMGUR_API_KEY = conf.get('martor', 'imgur_api_key')
+
+CSRF_COOKIE_HTTPONLY = False
+MARTOR_ENABLE_LABEL = False
 
 LANGUAGE_CODE = 'en-us'
 
@@ -96,6 +103,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
+STATIC_ROOT = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

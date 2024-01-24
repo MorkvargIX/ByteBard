@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.db.models import Count
+from django.utils.text import slugify
 from django.core.mail import send_mail
 from django.contrib.auth import login
 from django.contrib.auth import logout
@@ -13,11 +14,12 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from taggit.models import Tag
 
 from .models import Post, Like, Dislike
-from .forms import EmailPostForm, CommentForm, SearchFrom, UserCreationForm, UserLoginForm
+from .forms import EmailPostForm, CommentForm, SearchFrom, UserCreationForm, UserLoginForm, CreationPostForm
 
 
 def post_list(request, tag_slug=None):
     all_posts = Post.published.all()
+    paginator = Paginator(all_posts[:], 6)
     all_tags = Tag.objects.all()
     best_blogs = Post.best_posts.all()[:3]
     last_posts = None
@@ -26,9 +28,6 @@ def post_list(request, tag_slug=None):
         tag = get_object_or_404(Tag, slug=tag_slug)
         all_posts = all_posts.filter(tags__in=[tag])
         paginator = Paginator(all_posts[:], 6)
-    else:
-        last_posts = all_posts[:2]
-        paginator = Paginator(all_posts[2:], 6)
     page_number = request.GET.get('page', 1)
     try:
         all_posts = paginator.page(page_number)
@@ -98,7 +97,20 @@ def post_search(request):
 
 @login_required(login_url='blog:user_login')
 def post_create(request):
-    return render(request, 'blog/post/create.html')
+    if request.method == 'POST':
+        form = CreationPostForm(data=request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.slug = slugify(post.title)
+            post.save()
+            tags = form.cleaned_data['tags']
+            for tag in tags:
+                tag_instance, created = Tag.objects.get_or_create(name=tag)
+                post.tags.add(tag_instance)
+            post.save()
+    form = CreationPostForm()
+    return render(request, 'blog/post/create.html', {'form': form})
 
 
 def user_registration(request):

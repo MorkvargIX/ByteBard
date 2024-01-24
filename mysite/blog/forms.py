@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import BaseUserCreationForm, AuthenticationForm
-from .models import Comment
+from taggit.forms import TagField
+from .models import Comment, Post
 
 
 class EmailPostForm(forms.Form):
@@ -16,6 +17,16 @@ class CommentForm(forms.ModelForm):
         fields = ['body',]
         widgets = {
             'body': forms.Textarea(attrs={'class': 'rounded comment-form comment-form-input', 'name': 'body', 'placeholder': 'Write comment'}),
+        }
+
+
+class CreationPostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'body', 'tags']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'your-title-style', 'placeholder': 'Write post title'}),
+            'tags': forms.TextInput(attrs={'class': 'form-control', 'style': 'your-tags-style', 'placeholder': 'Write tags'}),
         }
 
 

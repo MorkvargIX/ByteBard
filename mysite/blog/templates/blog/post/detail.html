@@ -7,20 +7,20 @@
 {% block content %}
     <div class="post-detail-wrapper rounded">
         <h1>{{ post.title }}</h1>
-        <p class="date">Published {{ post.publish }} by {{ post.author }}</p>
-        {{ post.body|markdown }}
-
+        <div class="detail-post-wrapper">
+            <p class="date">Published {{ post.publish }} by {{ post.author }}</p>
+            {{ post.body|markdown }}
+        </div>
         <div class="post-tags">
             <h4>Tags: </h4>
             {% if post.tags.all %}
                 {% for tag in post.tags.all %}
-                    <p>{{ tag|title }}</p>
+                    <p>{{ tag|title }}, </p>
                 {% endfor %}
             {% else %}
                 <p>No tags</p>
             {% endif %}
         </div>
-
         {% include "blog/post/includes/post_info.html" %}
     </div>
 

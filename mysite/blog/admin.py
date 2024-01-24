@@ -1,5 +1,7 @@
 from django.contrib import admin
+from django.db import models
 from .models import Post, Comment, Like, Dislike
+from martor.widgets import AdminMartorWidget
 
 
 @admin.register(Post)
@@ -10,6 +12,9 @@ class AdminPost(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     raw_id_fields = ['author']
     ordering = ['status', 'publish']
+    formfield_overrides = {
+        models.TextField: {'widget': AdminMartorWidget},
+    }
 
 
 @admin.register(Comment)
@@ -31,3 +36,4 @@ class AdminDislike(admin.ModelAdmin):
     list_display = ['user', 'post', 'created']
     list_filter = ['post', 'user']
     search_fields = ['created', 'post']
+

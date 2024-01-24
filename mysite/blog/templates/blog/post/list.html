@@ -7,33 +7,7 @@
 {% block content %}
 
 <main class="container">
-    <div class="row mb-2 recent-post">
-      {% for post in last_posts %}
-        <div class="col-sm-6">
-              <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250">
-                <div class="col p-4 d-flex flex-column position-static">
 
-                  <strong class="d-inline-block mb-2 text-primary-emphasis">
-                    {% if post.tags.all %} {% for tag in post.tags.all %}
-                    <a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name|title }}</a>
-                    {% if not forloop.last %}, {% endif %} {% endfor %} {% else %} No tags {% endif %}</strong>
-                  <h3 class="mb-0" style="font-size: 25;">{{ post.title|truncate_words:4 }}</h3>
-
-                  <div class="mb-1 text-body-secondary">{{ post.author }} | {{ post.publish }} </div>
-                      <p class="card-text mb-auto">{{ post.body|markdown|truncatewords_html:9 }}</p>
-                      <a href="{{ post.get_absolute_url }}" class="icon-link gap-1 icon-link-hover">
-                        Continue reading
-                        <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
-                      </a>
-                  </div>
-
-                  <div class="col-auto d-none d-lg-block">
-                    <img src="{% static 'img/new-post.com.png' %}" alt="#new-post" style="width: 200px; height: 200px; padding-top: 20px;">
-                  </div>
-                </div>
-              </div>
-        {% endfor %}
-        </div>
 
     <div class="row g-5">
       <div class="col-md-8">
@@ -44,10 +18,11 @@
         {% for post in all_posts %}
         <div class="blog-post rounded">
           <div class="border-post-elements">
-            <h2 class="display-5 link-body-emphasis mb-1 post-title">{{ post.title|title }}</h2>
-            <p class="blog-post-meta">{{ post.publish }} | <a href="#">{{ post.author }}</a></p>
-            <p>{{ post.body|markdown|truncatewords_html:60 }}</p>
-
+            <div class="list-post-body">
+              <h2 class="display-5 link-body-emphasis mb-1 post-title">{{ post.title|title }}</h2>
+              <p class="blog-post-meta">{{ post.publish }} | <a href="#">{{ post.author }}</a></p>
+              <p>{{ post.body|markdown|truncatewords_html:60 }}</p>
+            </div>
             <div class="post-statistic-wrapper">
               {% include "blog/post/includes/post_info.html" %}
               <div class="post-statistic-element post-statistic-link">

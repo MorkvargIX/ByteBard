@@ -13,7 +13,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from taggit.models import Tag
 
-from .models import Post, Like, Dislike
+from .models import Post, Reaction
 from .forms import EmailPostForm, CommentForm, SearchFrom, UserCreationForm, UserLoginForm, CreationPostForm
 
 
@@ -159,30 +159,22 @@ def post_comment(request, post_id):
 
 
 @require_POST
-def post_like(request, post_id):
+def post_reaction(request, post_id, choice):
     if not request.user.is_authenticated:
         return JsonResponse({'redirect_url': '/login/'})
+
     post = get_object_or_404(Post, pk=post_id)
     user = request.user
-    like, created = Like.objects.get_or_create(post=post, user=user)
+    reaction = Reaction.objects.filter(post=post, user=user)
 
-    if not created:
-        like.delete()
+    if not reaction:
+        reaction = Reaction(reaction=choice, post=post, user=user)
+        reaction.save()
+    elif reaction and reaction.values('reaction')[0]['reaction'] != choice:
+        reaction.update(reaction=choice)
+    elif reaction and reaction.values('reaction')[0]['reaction'] == choice:
+        reaction.delete()
 
-    likes_count = post.likes.count()
-    return JsonResponse({'likes_count': likes_count})
-
-
-@require_POST
-def post_dislike(request, post_id):
-    if not request.user.is_authenticated:
-        return JsonResponse({'redirect_url': '/login/'})
-    post = get_object_or_404(Post, pk=post_id)
-    user = request.user
-    dislike, created = Dislike.objects.get_or_create(post=post, user=user)
-
-    if not created:
-        dislike.delete()
-
-    dislikes_count = post.dislikes.count()
-    return JsonResponse({'dislikes_count': dislikes_count})
+    likes_count = post.reactions.filter(reaction='L').count()
+    dislikes_count = post.reactions.filter(reaction='D').count()
+    return JsonResponse({'likes_count': likes_count, 'dislikes_count': dislikes_count})

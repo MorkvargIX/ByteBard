@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import F, Count, ExpressionWrapper
+from django.db.models import F, Count, ExpressionWrapper, Q
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -20,8 +20,8 @@ class BestPostsManager(models.Manager):
             .filter(status=Post.Status.PUBLISHED)
             .annotate(
                 total_comments=Count('comments', distinct=True),
-                total_likes=Count('likes', distinct=True),
-                total_dislikes=Count('dislikes', distinct=True)
+                total_likes=Count('reactions', filter=Q(reactions__reaction='L'), distinct=True),
+                total_dislikes=Count('reactions', filter=Q(reactions__reaction='D'), distinct=True)
             )
             .annotate(
                 total_score=ExpressionWrapper(
@@ -83,9 +83,14 @@ class Comment(models.Model):
         return f'{self.id}. Comment by {self.author} on {self.post}'
 
 
-class Like(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+class Reaction(models.Model):
+    class Options(models.TextChoices):
+        LIKE = 'L', 'Like'
+        DISLIKE = 'D', 'Dislike'
+
+    reaction = models.CharField(max_length=1, choices=Options.choices)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='reactions')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reactions')
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -97,21 +102,8 @@ class Like(models.Model):
         unique_together = [['post', 'user']]
 
     def __str__(self):
-        return f'{self.user.username} liked: post - {self.post.title}'
-
-
-class Dislike(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='dislikes')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='dislikes')
-    created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['-created']
-        indexes = [
-            models.Index(fields=['-created']),
-            models.Index(fields=['post']),
-        ]
-        unique_together = [['post', 'user']]
-
-    def __str__(self):
+        if self.reaction == 'L':
+            return f'{self.user.username} liked: post - {self.post.title}'
         return f'{self.user.username} disliked: post - {self.post.title}'
+
+

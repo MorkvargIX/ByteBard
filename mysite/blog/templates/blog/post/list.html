@@ -23,6 +23,7 @@
               <p class="blog-post-meta">{{ post.publish }} | <a href="#">{{ post.author }}</a></p>
               <p>{{ post.body|markdown|truncatewords_html:60 }}</p>
             </div>
+            <hr>
             <div class="post-statistic-wrapper">
               {% include "blog/post/includes/post_info.html" %}
               <div class="post-statistic-element post-statistic-link">

@@ -15,6 +15,16 @@ def total_posts():
     return Post.published.count()
 
 
+@register.filter(name='likes')
+def likes(post):
+    return post.reactions.filter(reaction='L').count()
+
+
+@register.filter(name='dislikes')
+def dislikes(post):
+    return post.reactions.filter(reaction='D').count()
+
+
 @register.inclusion_tag('blog/post/latest_posts.html')
 def show_latest_posts(count=5):
     latest_posts = Post.published.order_by('-publish')[:count]

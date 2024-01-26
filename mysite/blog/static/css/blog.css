@@ -300,6 +300,10 @@ input[type="submit"]{
     font-size: 20px;
 }
 
+.active-element-counter{
+    font-size: 26px;
+}
+
 .like-elements{
     padding-left: 30px;
 }

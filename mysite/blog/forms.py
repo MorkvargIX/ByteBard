@@ -7,11 +7,6 @@ from .models import Comment, Post
 class EmailPostForm(forms.Form):
     email = forms.EmailField()
 
-    widgets = {
-        'email': forms.TextInput(
-            attrs={'class': 'form-control', 'style': 'your-title-style', 'placeholder': 'Write post title'}),
-    }
-
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -33,7 +28,14 @@ class CreationPostForm(forms.ModelForm):
 
 
 class SearchFrom(forms.Form):
-    query = forms.CharField()
+    query = forms.CharField(widget=forms.TextInput(attrs={
+            'type': 'search',
+            'class': 'form-control rounded',
+            'style': 'your-title-style',
+            'placeholder': 'Search....',
+            'aria-label': "Search"
+        }
+    ))
 
 
 class UserCreationForm(BaseUserCreationForm):

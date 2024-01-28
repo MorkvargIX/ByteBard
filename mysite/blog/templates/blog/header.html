@@ -18,8 +18,8 @@
 
 
             <div class="text-end d-flex flex-wrap justify-content-md-between">
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 header-search" role="search">
-                  <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 header-search" role="search" action="{% url 'blog:post_list' %}" method="get">
+                    {{search_form.query}}
                 </form>
               {% if request.user.is_authenticated %}
                 <div class="my-dropdown">

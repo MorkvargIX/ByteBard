@@ -13,7 +13,6 @@ urlpatterns = [
     path('<int:post_id>/comment/', views.post_comment, name='post_comment'),
     path('<int:post_id>/<str:choice>/reaction/', views.post_reaction, name='post_reaction'),
     path('feed/', LatestPostsFeed(), name='post_feed'),
-    path('search/', views.post_search, name='post_search'),
     path('registration/', views.user_registration, name='user_registration'),
     path('login/', views.user_login, name='user_login'),
     path('logout/', views.user_logout, name='user_logout'),

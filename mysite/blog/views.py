@@ -1,6 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
-from django.db.models import Count
+from django.db.models import Count, F, Q
 from django.utils.text import slugify
 from django.core.mail import send_mail
 from django.contrib.auth import login
@@ -8,7 +8,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.postgres.search import SearchVector
+from django.contrib.postgres.search import SearchVector, SearchRank, SearchQuery
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from taggit.models import Tag
@@ -18,15 +18,35 @@ from .forms import EmailPostForm, CommentForm, SearchFrom, UserCreationForm, Use
 
 
 def post_list(request, tag_slug=None):
+    search_form = SearchFrom()
+    query = None
+
     all_posts = Post.published.all()
-    paginator = Paginator(all_posts[:], 6)
     all_tags = Tag.objects.all()
+
+    if 'query' in request.GET:
+        form = SearchFrom(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            all_posts = Post.published.annotate(
+                title_search=SearchVector('title'),
+                body_search=SearchVector('body')
+            ).annotate(
+                search_rank_title=SearchRank(F('title_search'), SearchQuery(query)),
+                search_rank_body=SearchRank(F('body_search'), SearchQuery(query))
+            ).filter(
+                Q(search_rank_title__gt=0) | Q(search_rank_body__gt=0)
+            ).order_by('-search_rank_title', '-search_rank_body')
+
+    paginator = Paginator(all_posts, 6)
     best_blogs = Post.best_posts.all()[:5]
     tag = None
+
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
         all_posts = all_posts.filter(tags__in=[tag])
-        paginator = Paginator(all_posts[:], 6)
+        paginator = Paginator(all_posts, 6)
+
     page_number = request.GET.get('page', 1)
     try:
         all_posts = paginator.page(page_number)
@@ -38,7 +58,9 @@ def post_list(request, tag_slug=None):
         'all_posts': all_posts,
         'tag': tag,
         'all_tags': all_tags,
-        'best_blogs': best_blogs
+        'best_blogs': best_blogs,
+        'query': query,
+        'search_form': search_form,
     })
 
 
@@ -65,19 +87,6 @@ def post_detail(request, id, slug):
             'best_blogs': best_blogs,
         }
     )
-
-
-def post_search(request):
-    form = SearchFrom()
-    query = None
-    results = []
-
-    if 'query' in request.GET:
-        form = SearchFrom(request.GET)
-        if form.is_valid():
-            query = form.cleaned_data['query']
-            results = Post.published.annotate(search=SearchVector('title', 'body'),).filter(search=query)
-    return render(request, 'blog/post/search.html', {'form': form, 'query': query, 'results': results})
 
 
 @login_required(login_url='blog:user_login')

@@ -5,45 +5,62 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-    <div class="post-detail-wrapper rounded">
-        <h1>{{ post.title }}</h1>
-        <div class="detail-post-wrapper">
+<div class="container">
+<div class="row g-5">
+      <div class="col-md-8">
+        <div class="post-detail-wrapper rounded mb-3">
+            <h1>{{ post.title }}</h1>
             <p class="date">Published {{ post.publish }} by {{ post.author }}</p>
-            {{ post.body|markdown }}
         </div>
-        <div class="post-tags">
-            <h4>Tags: </h4>
-            {% if post.tags.all %}
-                {% for tag in post.tags.all %}
-                    <p>{{ tag|title }}, </p>
-                {% endfor %}
-            {% else %}
-                <p>No tags</p>
-            {% endif %}
-        </div>
-        {% include "blog/post/includes/post_info.html" %}
-    </div>
-
-    <div class="post-comments rounded">
-        {% for comment in comments %}
-            <div class="comment-info">
-                <img src="{% static 'img/standard_user_icon.png' %}" alt="#user_icon" width="30px" height="30px">
-                <div class="comment-info-elements person-info">
-                    <p class="person-info-element">{{ comment.author.username }}</p>
-                    <p class="person-info-element comment-publish">{% if comment.updated %} {{ comment.updated }} updated {% else %} {{ comment.created }} created {% endif %}</p>
-                </div>
+        <div class="post-detail-wrapper rounded">
+            <div class="detail-post-wrapper">
+                {{ post.body|markdown }}
             </div>
-            <p>{{ comment.body }}</p>
-            <hr>
-        {% endfor %}
-        {% if request.user.is_authenticated %}
-            {% include "blog/post/includes/comment_form.html" %}
-        {% else %}
-            {% if comments.count == 0 %}
-                <p class="comment-register-text"> This post has no comments yet. You can be the first! </p>
-            {% endif %}
-            <p class="comment-register-text">To leave a comment, please register</p>
-        {% endif %}
-    </div>
+            <div class="post-tags">
+                <h4>Tags: </h4>
+                {% if post.tags.all %}
+                    {% for tag in post.tags.all %}
+                        <p>{{ tag|title }}, </p>
+                    {% endfor %}
+                {% else %}
+                    <p>No tags</p>
+                {% endif %}
+            </div>
+            {% include "blog/post/includes/post_info.html" %}
+        </div>
 
+        {% include "blog/post/includes/subscribe_form.html" %}
+
+        <div class="post-comments rounded">
+            {% for comment in comments %}
+                <div class="comment-info">
+                    <img src="{% static 'img/standard_user_icon.png' %}" alt="#user_icon" width="30px" height="30px">
+                    <div class="comment-info-elements person-info">
+                        <p class="person-info-element">{{ comment.author.username }}</p>
+                        <p class="person-info-element comment-publish">{% if comment.updated %} {{ comment.updated }} updated {% else %} {{ comment.created }} created {% endif %}</p>
+                    </div>
+                </div>
+                <p>{{ comment.body }}</p>
+                <hr>
+            {% endfor %}
+            {% if request.user.is_authenticated %}
+                {% include "blog/post/includes/comment_form.html" %}
+            {% else %}
+                {% if comments.count == 0 %}
+                    <p class="comment-register-text"> This post has no comments yet. You can be the first! </p>
+                {% endif %}
+                <p class="comment-register-text">To leave a comment, please register</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="position-sticky" style="top: 2rem;">
+            {% include "blog/post/includes/recent_posts.html" %}
+
+            {% include "blog/post/includes/best_blogs.html" %}
+
+        </div>
+    </div>
+</div>
+</div>
 {% endblock %}

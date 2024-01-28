@@ -5,10 +5,12 @@ from .models import Comment, Post
 
 
 class EmailPostForm(forms.Form):
-    name = forms.CharField(max_length=25)
     email = forms.EmailField()
-    to = forms.EmailField()
-    comment = forms.CharField(required=False, widget=forms.Textarea)
+
+    widgets = {
+        'email': forms.TextInput(
+            attrs={'class': 'form-control', 'style': 'your-title-style', 'placeholder': 'Write post title'}),
+    }
 
 
 class CommentForm(forms.ModelForm):

@@ -1,5 +1,6 @@
 {% load static %}
 {% load blog_tags %}
+{% load social_share %}
 
 <ul class="post-statistic post-statistic-element">
   <li class="statistic-element">
@@ -19,5 +20,23 @@
         <img src="{% static 'logo/dislike.svg' %}" alt="#dislike" width="30" height="30" class="post-active-elements like-button" data-post-id="{{ post.id }}" data-choice="D">
       </form>
       <p class="active-element-counter dislike-text" id="dislike-element-text-{{ post.id }}">{{ post|dislikes }}</p>
+  </li>
+  <li class="statistic-element like-elements social-sharing">
+      <img src="{% static 'logo/share.svg' %}" alt="#dislike" width="30" height="30" class="post-active-elements share-button" id="show-list-button" data-post-id="{{post.id}}">
+      <div class="rounded sticky-modal" id="list-dialog-{{post.id}}" title="Social media" style="display: none;">
+        <ul class="rounded share-block-wrapper">
+            <li class="share-image">{% post_to_twitter "{{post.title}}. Check it out!" post.get_absolute_url "Post to Twitter" %}</li>
+            <li class="share-image">{% post_to_facebook post.get_absolute_url %}</li>
+            <li class="share-image">{% post_to_telegram "{{post.title}}. Check it out!" post.get_absolute_url "Post to Telegram" %}</li>
+            <li class="share-image">{% post_to_whatsapp post.get_absolute_url %}</li>
+            <li class="share-image">{% post_to_reddit post.get_absolute_url %}</li>
+            <li class="share-image">{% post_to_gplus post.get_absolute_url %}</li>
+        </ul>
+          <hr>
+        <div class="clipboard-menu d-flex justify-content-center" style="width">
+            <input type="text" class="rounded-left form-control post-url" value="{{post.get_absolute_url}}" id="postUrl-{{post.id}}">
+            <button class="btn bg-info text-dark rounded-right post-share-button" style="padding: 0; width: 100px;" id="copyButton-{{post.id}}">Copy link</button>
+        </div>
+    </div>
   </li>
 </ul>

@@ -49,23 +49,7 @@
             <p class="mb-0">Stay updated on the latest trends and innovations in web development. Explore the ever-evolving landscape of technology and its impact on our digital world.</p>
           </div>
 
-          <div class="info-panel rounded">
-
-            <h4 class="info-panel-name">Best blogs</h4>
-            <ul class="list-unstyled">
-              {% for blog in best_blogs %}
-              <li>
-                <a href="{{ blog.get_absolute_url }}" class=" info-panel-element d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top rounded">
-                  <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
-                  <div class="col-lg-8">
-                    <h6 class="mb-0">{{ blog.title }}</h6>
-                    <small class="text-body-secondary">{{ blog.publish }}</small>
-                  </div>
-                </a>
-              </li>
-              {% endfor %}
-            </ul>
-          </div>
+          {% include "blog/post/includes/best_blogs.html" %}
 
           <div class="p-4 rounded archive-block">
             <h4>Tags</h4>

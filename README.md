@@ -14,12 +14,12 @@ conf.read('/ByteBard/.config')
 Please create the config file following the INI standard. Don't forget register on [Imgur Oauth2](https://api.imgur.com/oauth2)
 ```text
 [server]
-SECRET_KEY = 'your_key'
+SECRET_KEY = your_key
 
 [database]
-NAME = 'db_name'
-USER = 'db_user'
-PASSWORD = 'db_password'
+NAME = db_name
+USER = db_user
+PASSWORD = db_password
 
 [email]
 ...
@@ -33,3 +33,7 @@ Also, you should delete next var. This variable displays a message to the consol
 ```python
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ```
+---
+To use django-social-share edit templates in your **.venv** file. For example my path is: 
+/ByteBard/.venv/lib/python3.12/site-packages/django_social_share/templates/django_social_share/templatetags/
+post_to_twitter.html. 

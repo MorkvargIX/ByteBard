@@ -62,4 +62,22 @@ $(document).ready(function () {
         });
     });
 
+    $(".share-button").click( function(event) {
+        event.preventDefault();
+        var postId = $(this).data('post-id')
+        var dialogId = 'list-dialog-' + postId
+        $('#' + dialogId).dialog({
+            modal: true,
+            width: 600,
+            height: 240,
+        });
+
+        var clipboard = new ClipboardJS('#copyButton-' + postId, {
+            target: function(trigger) {
+                return $('#postUrl-' + postId).get(0);
+            }
+        });
+
+    });
+
 });

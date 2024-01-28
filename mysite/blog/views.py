@@ -21,8 +21,7 @@ def post_list(request, tag_slug=None):
     all_posts = Post.published.all()
     paginator = Paginator(all_posts[:], 6)
     all_tags = Tag.objects.all()
-    best_blogs = Post.best_posts.all()[:3]
-    last_posts = None
+    best_blogs = Post.best_posts.all()[:5]
     tag = None
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
@@ -39,15 +38,17 @@ def post_list(request, tag_slug=None):
         'all_posts': all_posts,
         'tag': tag,
         'all_tags': all_tags,
-        'best_blogs': best_blogs,
-        'last_posts': last_posts
+        'best_blogs': best_blogs
     })
 
 
 def post_detail(request, id, slug):
+    recent_posts = Post.published.all()[:5]
+    best_blogs = Post.best_posts.all()[:5]
     post = get_object_or_404(Post, status=Post.Status.PUBLISHED, id=id, slug=slug)
     comments = post.comments.filter(active=True)
-    form = CommentForm()
+    comment_form = CommentForm()
+    subscribe_form = EmailPostForm()
     post_tags_ids = post.tags.values_list('id', flat=True)
     similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
     similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
@@ -57,29 +58,13 @@ def post_detail(request, id, slug):
         {
             'post': post,
             'comments': comments,
-            'form': form,
-            'similar_posts': similar_posts
+            'comment_form': comment_form,
+            'subscribe_form': subscribe_form,
+            'similar_posts': similar_posts,
+            'recent_posts': recent_posts,
+            'best_blogs': best_blogs,
         }
     )
-
-
-def post_share(request, post_id):
-    post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
-
-    sent = False
-
-    if request.method == 'POST':
-        form = EmailPostForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            post_url = request.build_absolute_uri(post.get_absolute_url())
-            subject = f'{cd['name']} recommends you read {post.title}'
-            message = f'Read {post.title} at {post_url}\n\n{cd['name']}\'s comments: {cd['comment']}'
-            send_mail(subject, message, settings.EMAIL_HOST_USER, [cd['to']])
-            sent = True
-    else:
-        form = EmailPostForm()
-    return render(request, 'blog/post/share.html', {'post': post, 'form': form, 'sent': sent})
 
 
 def post_search(request):
@@ -140,6 +125,15 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('blog:post_list')
+
+
+@login_required(login_url='blog:user_login')
+@require_POST
+def post_subscribe(request):
+    subscribe_form = EmailPostForm(data=request.POST)
+    if subscribe_form.is_valid():
+        return JsonResponse({'success': 'You have subscribed to the mailing list'})
+    return JsonResponse({'error': 'Invalid form data'})
 
 
 @login_required

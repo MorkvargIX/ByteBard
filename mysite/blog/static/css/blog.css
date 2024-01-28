@@ -67,7 +67,6 @@ main{
     float: left;
     min-width: 10rem;
     padding: 0.5rem 0;
-    margin: 0.125rem 0 0;
     font-size: 1rem;
     color: #fff;
     text-align: left;
@@ -325,6 +324,47 @@ input[type="submit"]{
     cursor: pointer;
 }
 
+.share-image{
+    list-style-type: none;
+    padding-right: 10px;
+}
+
+.share-image img{
+    width: 70px;
+    height: 70px;
+}
+
+.share-block-wrapper{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 20px;
+}
+
+.ui-dialog-titlebar-close {
+    position: relative;
+    background-color: #e74c3c;
+    color: #fff;
+    border: 1px solid #c0392b;
+    border-radius: 4px;
+    padding: 5px 10px;
+}
+
+.ui-dialog-titlebar-close::before {
+    content: '×';
+    font-size: 16px;
+    line-height: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ui-dialog-titlebar-close:hover {
+    background-color: #c0392b;
+    border-color: #a93226;
+    color: #fff;
+}
+
 .pagination{
     background-color: rgb(247, 245, 245);
     display: flex;
@@ -369,12 +409,10 @@ input[type="submit"]{
 
 /* post detail */
 .post-detail-wrapper{
-    padding: 15px;
+    padding: 20px;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 30px;
     padding-bottom: 20px;
-    width: 1000px;
     background-color: rgb(247, 245, 245);
 }
 
@@ -409,7 +447,6 @@ input[type="submit"]{
     margin-top: 20px;
     margin-right: auto;
     margin-left: auto;
-    width: 1000px;
     background-color: rgb(247, 245, 245);
 }
 

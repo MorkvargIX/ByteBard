@@ -1,5 +1,4 @@
 from django.http import HttpResponse, JsonResponse
-from django.conf import settings
 from django.db.models import Count, F, Q
 from django.utils.text import slugify
 from django.core.mail import send_mail
@@ -18,13 +17,12 @@ from .forms import SubscriptionForm, CommentForm, SearchFrom, UserCreationForm, 
 
 
 def post_list(request, tag_slug=None):
-    search_form = SearchFrom()
-    query = None
+    query = request.GET.get('query', None)
 
     all_posts = Post.published.all()
     all_tags = Tag.objects.all()
 
-    if 'query' in request.GET:
+    if query:
         search_form = SearchFrom(request.GET)
         if search_form.is_valid():
             query = search_form.cleaned_data['query']
@@ -60,7 +58,6 @@ def post_list(request, tag_slug=None):
         'all_tags': all_tags,
         'best_blogs': best_blogs,
         'query': query,
-        'search_form': search_form,
     })
 
 
@@ -100,6 +97,7 @@ def post_detail(request, id, slug):
 
 @login_required(login_url='blog:user_login')
 def post_create(request):
+    recent_posts = Post.published.all()[:5]
     if request.method == 'POST':
         form = CreationPostForm(data=request.POST)
         if form.is_valid():
@@ -113,7 +111,7 @@ def post_create(request):
                 post.tags.add(tag_instance)
             post.save()
     form = CreationPostForm()
-    return render(request, 'blog/post/create.html', {'form': form})
+    return render(request, 'blog/post/create.html', {'form': form, 'recent_posts': recent_posts})
 
 
 def user_registration(request):
@@ -152,8 +150,6 @@ def newsletter_subscription(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     author = post.author
     current_user = get_object_or_404(User, username=request.user.username)
-    print(author)
-    print(current_user)
     if current_user and email_form.is_valid() and author != current_user:
         subscription = Subscriber(username=current_user.username, email=email_form.cleaned_data['email'], author=author)
         subscription.save()
@@ -166,7 +162,6 @@ def newsletter_subscription(request, post_id):
 def post_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
     user = request.user
-    comment = None
     form = CommentForm(data=request.POST)
     if form.is_valid():
         comment = form.save(commit=False)

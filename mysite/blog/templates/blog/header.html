@@ -1,45 +1,45 @@
 {% load static %}
-
-<header class="p-3 text-bg-dark header">
-        <div class="header-container">
-          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
-            <a href="{% url 'blog:post_list' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-              <img src="{% static 'logo/logo.svg' %}" alt="#logo-svg">
-              <span class="fs-4 logo-text">ByteBard</span>
-            </a>
-
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 header-nav-bar">
-              <li><a href="{% url 'blog:post_list' %}" class="nav-link px-2 text-white">Home</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">About</a></li>
-            </ul>
-
-
-
-            <div class="text-end d-flex flex-wrap justify-content-md-between">
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 header-search" role="search" action="{% url 'blog:post_list' %}" method="get">
-                    {{search_form.query}}
-                </form>
-              {% if request.user.is_authenticated %}
-                <div class="my-dropdown">
-                  <a href="#" class="my-dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true">
-                          <img src="{% static 'img/standard_user_icon.png' %}" alt="#user_icon" width="32" height="32" class="rounded-circle">
-                          <span class="arrow-down">&#9660;</span>
-                  </a>
-                  <ul class="my-dropdown-menu">
-                      <li><a class="my-dropdown-item" href="{% url 'blog:post_create' %}">Create post</a></li>
-                      <li><a class="my-dropdown-item" href="#">Settings</a></li>
-                      <li><a class="my-dropdown-item" href="#">Profile</a></li>
-                      <li><hr class="my-dropdown-divider"></li>
-                      <li><a class="my-dropdown-item" href="{% url 'blog:user_logout' %}">Log out</a></li>
-                  </ul>
-                </div>
-              {% else %}
-                <a href="{% url 'blog:user_login' %}"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
-                <a href="{% url 'blog:user_registration' %}"><button type="button" class="btn btn-warning">Sign-up</button></a>
-              {% endif %}
-            </div>
-          </div>
+<nav class="py-2 text-bg-dark border-bottom ">
+    <div class="container d-flex flex-wrap">
+      <ul class="nav me-auto">
+        <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2 active text-white" aria-current="page">Home</a></li>
+        <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2 text-white">Features</a></li>
+        <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2 text-white">Pricing</a></li>
+        <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2 text-white">FAQs</a></li>
+        <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2 text-white">About</a></li>
+      </ul>
+      {% if request.user.is_authenticated %}
+        <div class="my-dropdown">
+          <a href="#" class="my-dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true">
+              <img src="{% static 'img/standard_user_icon.png' %}" alt="#user_icon" width="40" height="40" class="rounded-circle">
+              <span class="arrow-down">&#9660;</span>
+          </a>
+          <ul class="my-dropdown-menu">
+              <li><a class="my-dropdown-item" href="{% url 'blog:post_create' %}">Create post</a></li>
+              <li><a class="my-dropdown-item" href="#">Settings</a></li>
+              <li><a class="my-dropdown-item" href="#">Profile</a></li>
+              <li><hr class="my-dropdown-divider"></li>
+              <li><a class="my-dropdown-item" href="{% url 'blog:user_logout' %}">Log out</a></li>
+          </ul>
         </div>
+      {% else %}
+          <ul class="nav">
+            <li class="nav-item"><a href="{% url 'blog:user_login' %}" class="nav-link link-body-emphasis px-2 text-white">Login</a></li>
+            <li class="nav-item"><a href="{% url 'blog:user_registration' %}" class="nav-link link-body-emphasis px-2 text-white">Sign up</a></li>
+          </ul>
+      {% endif %}
+
+
+    </div>
+  </nav>
+<header class="py-3 mb-4 border-bottom text-bg-dark">
+    <div class="container d-flex flex-wrap justify-content-center">
+      <a href="{% url 'blog:post_list' %}" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none">
+          <img src="{% static 'logo/logo.svg' %}" alt="#logo_svg" width="55" height="55">
+        <span class="fs-2 text-white" >ByteBard</span>
+      </a>
+      <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search" method="get" action="{% url 'blog:post_list' %}">
+        <input name="query" type="search" class="form-control" placeholder="Search..." aria-label="Search">
+      </form>
+    </div>
 </header>

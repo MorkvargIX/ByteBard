@@ -3,10 +3,7 @@
 {% load social_share %}
 
 <ul class="post-statistic post-statistic-element">
-  <li class="statistic-element">
-      <img src="{% static 'logo/comment.svg' %}" alt="#comment" width="30" height="30" class="post-active-elements">
-      <p class="active-element-counter"> {{ post.comments.count }}</p>
-  </li>
+
   <li class="statistic-element like-elements">
       <form method="post" action="{% url 'blog:post_reaction' post.id 'L' %}">
         {% csrf_token %}
@@ -20,6 +17,10 @@
         <img src="{% static 'logo/dislike.svg' %}" alt="#dislike" width="30" height="30" class="post-active-elements like-button" data-post-id="{{ post.id }}" data-choice="D">
       </form>
       <p class="active-element-counter dislike-text" id="dislike-element-text-{{ post.id }}">{{ post|dislikes }}</p>
+  </li>
+  <li class="statistic-element">
+      <img src="{% static 'logo/comment.svg' %}" alt="#comment" width="30" height="30" class="post-active-elements">
+      <p class="active-element-counter"> {{ post.comments.count }}</p>
   </li>
   <li class="statistic-element like-elements social-sharing">
       <img src="{% static 'logo/share.svg' %}" alt="#dislike" width="30" height="30" class="post-active-elements share-button" id="show-list-button" data-post-id="{{post.id}}">

@@ -1,13 +1,7 @@
-@font-face {
-    font-family: 'gunny';
-    src: url("ByteBard/mysite/blog/static/fonts/gunnyrewritten.woff2") format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
 *{
     margin: 0;
     padding: 0;
+    font-family: Fantasy;
 }
 
 .main-blocks-wrapper{
@@ -22,32 +16,6 @@ main{
 
 
 /* header */
-.header{
-    margin-bottom: 20px;
-}
-
-.header-nav-bar{
-    font-size: 20px;
-}
-
-.header-container{
-    padding: 0 120px;
-}
-
-.logo-text{
-    padding-left: 8px;
-}
-
-.header-search{
-    border-radius: 4px;
-    color: white;
-    background-color: white;
-}
-
-.navigator-toolbar{
-    margin-left: 30px;
-}
-
 .my-dropdown {
     position: relative;
     display: inline-block;
@@ -274,6 +242,7 @@ input[type="submit"]{
     display: flex;
     align-items: center;
     font-size: 16px;
+    padding-left: 20px;
     color: #333;
 }
 
@@ -286,7 +255,6 @@ input[type="submit"]{
     display: flex;
     justify-content: space-between;
     max-width: 700px;
-    padding-left: 20px;
     list-style-type: none;
 }
 
@@ -303,9 +271,7 @@ input[type="submit"]{
     font-size: 26px;
 }
 
-.like-elements{
-    padding-left: 30px;
-}
+
 
 .like-elements p{
     pointer-events: none;
@@ -382,14 +348,6 @@ input[type="submit"]{
 .info-panel{
     padding-top: 10px;
     background-color: rgb(247, 245, 245);
-}
-
-.info-panel-name{
-    padding-left: 20px;
-}
-
-.info-panel-element{
-    padding-left: 20px;
 }
 
 .archive-block{

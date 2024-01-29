@@ -30,14 +30,7 @@ class CreationPostForm(forms.ModelForm):
 
 
 class SearchFrom(forms.Form):
-    query = forms.CharField(widget=forms.TextInput(attrs={
-            'type': 'search',
-            'class': 'form-control rounded',
-            'style': 'your-title-style',
-            'placeholder': 'Search....',
-            'aria-label': "Search"
-        }
-    ))
+    query = forms.CharField()
 
 
 class UserCreationForm(BaseUserCreationForm):

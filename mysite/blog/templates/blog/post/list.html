@@ -21,6 +21,7 @@
             <div class="list-post-body">
               <h2 class="display-5 link-body-emphasis mb-1 post-title">{{ post.title|title }}</h2>
               <p class="blog-post-meta">{{ post.publish }} | <a href="#">{{ post.author }}</a></p>
+              <hr>
               <p>{{ post.body|markdown|truncatewords_html:60 }}</p>
             </div>
             <hr>

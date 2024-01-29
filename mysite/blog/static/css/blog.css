@@ -494,6 +494,16 @@ input[type="submit"]{
     height: 90px;
 }
 
+.subscription-form button{
+    background-color: rgb(70, 102, 156);
+    color: white;
+}
+
+.subscription-form button:hover{
+    background-color: rgb(57, 77, 110);
+    color: white;
+}
+
 .comment-form button {
     background-color: rgb(70, 102, 156);
     color: white;

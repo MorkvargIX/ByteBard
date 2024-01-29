@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.db import models
-from .models import Post, Comment, Reaction
+from .models import Post, Comment, Reaction, Subscriber
 from martor.widgets import AdminMartorWidget
 
 
@@ -29,4 +29,11 @@ class AdminLike(admin.ModelAdmin):
     list_display = ['user', 'reaction', 'post', 'created']
     list_filter = ['post', 'user', 'reaction']
     search_fields = ['created', 'post']
+
+
+@admin.register(Subscriber)
+class AdminLike(admin.ModelAdmin):
+    list_display = ['username', 'email', 'author', 'created']
+    list_filter = ['username', 'author', 'created']
+    search_fields = ['username', 'author']
 

@@ -107,3 +107,17 @@ class Reaction(models.Model):
         return f'{self.user.username} disliked: post - {self.post.title}'
 
 
+class Subscriber(models.Model):
+    username = models.CharField(max_length=150)
+    email = models.EmailField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='subscribers')
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created']
+        indexes = [
+            models.Index(fields=['-created']),
+        ]
+
+    def __str__(self):
+        return f'{self.username} subscribed on {self.author.username}\' posts'

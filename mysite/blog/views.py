@@ -13,8 +13,8 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from taggit.models import Tag
 
-from .models import Post, Reaction
-from .forms import EmailPostForm, CommentForm, SearchFrom, UserCreationForm, UserLoginForm, CreationPostForm
+from .models import Post, Reaction, Subscriber, User
+from .forms import SubscriptionForm, CommentForm, SearchFrom, UserCreationForm, UserLoginForm, CreationPostForm
 
 
 def post_list(request, tag_slug=None):
@@ -25,9 +25,9 @@ def post_list(request, tag_slug=None):
     all_tags = Tag.objects.all()
 
     if 'query' in request.GET:
-        form = SearchFrom(request.GET)
-        if form.is_valid():
-            query = form.cleaned_data['query']
+        search_form = SearchFrom(request.GET)
+        if search_form.is_valid():
+            query = search_form.cleaned_data['query']
             all_posts = Post.published.annotate(
                 title_search=SearchVector('title'),
                 body_search=SearchVector('body')
@@ -65,12 +65,20 @@ def post_list(request, tag_slug=None):
 
 
 def post_detail(request, id, slug):
+    subscribed_message = False
+
     recent_posts = Post.published.all()[:5]
     best_blogs = Post.best_posts.all()[:5]
     post = get_object_or_404(Post, status=Post.Status.PUBLISHED, id=id, slug=slug)
+
+    if request.user.is_authenticated:
+        subscription = Subscriber.objects.filter(username=request.user.username, author=post.author)
+        if subscription:
+            subscribed_message = True
+
     comments = post.comments.filter(active=True)
     comment_form = CommentForm()
-    subscribe_form = EmailPostForm()
+    subscribe_form = SubscriptionForm()
     post_tags_ids = post.tags.values_list('id', flat=True)
     similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
     similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
@@ -85,6 +93,7 @@ def post_detail(request, id, slug):
             'similar_posts': similar_posts,
             'recent_posts': recent_posts,
             'best_blogs': best_blogs,
+            'subscribed_message': subscribed_message,
         }
     )
 
@@ -138,11 +147,18 @@ def user_logout(request):
 
 @login_required(login_url='blog:user_login')
 @require_POST
-def post_subscribe(request):
-    subscribe_form = EmailPostForm(data=request.POST)
-    if subscribe_form.is_valid():
-        return JsonResponse({'success': 'You have subscribed to the mailing list'})
-    return JsonResponse({'error': 'Invalid form data'})
+def newsletter_subscription(request, post_id):
+    email_form = SubscriptionForm(data=request.POST)
+    post = get_object_or_404(Post, id=post_id)
+    author = post.author
+    current_user = get_object_or_404(User, username=request.user.username)
+    print(author)
+    print(current_user)
+    if current_user and email_form.is_valid() and author != current_user:
+        subscription = Subscriber(username=current_user.username, email=email_form.cleaned_data['email'], author=author)
+        subscription.save()
+        return JsonResponse({'Success': 'You have successfully subscribed to the user newsletter!'})
+    return JsonResponse({'Error': 'Something went wrong, failed to subscribe to the user\'s newsletter!'})
 
 
 @login_required

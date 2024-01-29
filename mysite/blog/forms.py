@@ -1,11 +1,13 @@
 from django import forms
 from django.contrib.auth.forms import BaseUserCreationForm, AuthenticationForm
-from taggit.forms import TagField
 from .models import Comment, Post
 
 
-class EmailPostForm(forms.Form):
-    email = forms.EmailField()
+class SubscriptionForm(forms.Form):
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'id': 'subscription-email-field', 'placeholder': 'Write your email for subscription'}),
+        label=''
+    )
 
 
 class CommentForm(forms.ModelForm):
@@ -22,8 +24,8 @@ class CreationPostForm(forms.ModelForm):
         model = Post
         fields = ['title', 'body', 'tags']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'your-title-style', 'placeholder': 'Write post title'}),
-            'tags': forms.TextInput(attrs={'class': 'form-control', 'style': 'your-tags-style', 'placeholder': 'Write tags'}),
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Write post title'}),
+            'tags': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Write tags'}),
         }
 
 

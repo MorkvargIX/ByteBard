@@ -44,7 +44,7 @@ $(document).ready(function () {
                 var created = data.publish
                 var newCommentHtml = `
                     <div class="comment-info">
-                        <img src="/static/img/standard_user_icon.png" alt="#user_icon" width="30px" height="30px">
+                        <img src="blog/static/img/standard_user_icon.png" alt="#user_icon" width="30px" height="30px">
                         <div class="comment-info-elements person-info">
                             <p class="person-info-element">${ name }</p>
                             <p class="person-info-element comment-publish">${ created }</p>
@@ -78,6 +78,31 @@ $(document).ready(function () {
             }
         });
 
+    });
+
+    $('.subscribe-button').click(function (event) {
+        event.preventDefault();
+
+        var postId = $(this).data('post-id');
+        var csrfToken = Cookies.get('csrftoken');
+        var formData = $('#subscription-email-field').val();
+
+        $.ajax({
+            url: '/' + postId + '/subscription/',
+            crossOrigin: true,
+            type: 'POST',
+            dataType: 'json',
+            data: {'post_id': postId, 'email': formData,},
+            headers: {'X-CSRFToken': csrfToken},
+            success: function (data) {
+                console.log('Success');
+                var successMessage = $('<p class="text-center" id="subscription-message">Subscription successfully activated&#9989;</p>');
+                $('#subscription-form-wrapper').replaceWith(successMessage);
+            },
+            error: function (error) {
+                console.error('Error:', error);
+            }
+        });
     });
 
 });

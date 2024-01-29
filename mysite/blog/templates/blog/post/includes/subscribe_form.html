@@ -1,7 +1,15 @@
-<div class="post-comments rounded">
-    <form method="post" action="{% url 'blog:post_subscribe' %}">
-        {{ subscribe_form.as_p }}
-        {% csrf_token %}
-        <button type="submit" style="width: 60px; height: 20px;"></button>
-    </form>
+<div class="p-3 post-comments rounded subscription-form">
+    {% if subscribed_message %}
+        <p class="text-center" id="subscription-message">You are already subscribed on this user&#9989;</p>
+    {% elif request.user.is_authenticated %}
+    <div id="subscription-form-wrapper">
+        <form id="subscription-form-{{ post.id }}" method="post" action="{% url 'blog:newsletter_subscription' post.id %}">
+            {{ subscribe_form.as_p }}
+            {% csrf_token %}
+            <button class="btn rounded-right subscribe-button" type="submit" data-post-id="{{ post.id }}">Subscribe</button>
+        </form>
+    </div>
+    {% else %}
+        <p class="text-center" style="color: #777;">You need login to receive the newsletter.</p>
+    {% endif %}
 </div>

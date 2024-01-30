@@ -481,6 +481,21 @@ input[type="submit"]{
     color: #777;
 }
 
+.same-post-title-wrapper a{
+    color: inherit;
+    text-decoration: none;
+}
+
+.same-post-title{
+    transition: transform 0.2s;
+    transform-origin: center;
+}
+
+.same-post-title:hover{
+    color: rgb(57, 77, 110);
+    transform: scale(1.02);
+}
+
 /* footer */
 .footer-container{
     background-color: rgb(247, 245, 245);

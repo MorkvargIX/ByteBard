@@ -9,7 +9,7 @@
 <div class="row g-5">
       <div class="col-md-8">
         <div class="post-detail-wrapper rounded mb-3">
-            <h1>{{ post.title }}</h1>
+            <h1 class="fw-bold">{{ post.title }}</h1>
             <p class="date">Published {{ post.publish }} by {{ post.author }}</p>
         </div>
         <div class="post-detail-wrapper rounded">
@@ -53,6 +53,8 @@
                 <p class="comment-register-text">To leave a comment, please register</p>
             {% endif %}
         </div>
+
+        {% include "blog/post/includes/same_posts.html" %}
     </div>
     <div class="col-md-4">
         <div class="position-sticky" style="top: 2rem;">

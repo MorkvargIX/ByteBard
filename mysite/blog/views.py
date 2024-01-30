@@ -1,7 +1,6 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.db.models import Count, F, Q
 from django.utils.text import slugify
-from django.core.mail import send_mail
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -16,11 +15,14 @@ from .models import Post, Reaction, Subscriber, User
 from .forms import SubscriptionForm, CommentForm, SearchFrom, UserCreationForm, UserLoginForm, CreationPostForm
 
 
-def post_list(request, tag_slug=None):
+def post_list(request, tag_slug=None, author=None):
     query = request.GET.get('query', None)
 
     all_posts = Post.published.all()
     all_tags = Tag.objects.all()
+
+    if author:
+        all_posts = Post.published.filter(author__username=author)
 
     if query:
         search_form = SearchFrom(request.GET)
@@ -73,6 +75,9 @@ def post_detail(request, id, slug):
         if subscription:
             subscribed_message = True
 
+    tags = post.tags.names()
+    same_posts = Post.objects.filter(tags__name__in=tags).exclude(pk=post.pk).distinct()
+
     comments = post.comments.filter(active=True)
     comment_form = CommentForm()
     subscribe_form = SubscriptionForm()
@@ -91,6 +96,7 @@ def post_detail(request, id, slug):
             'recent_posts': recent_posts,
             'best_blogs': best_blogs,
             'subscribed_message': subscribed_message,
+            'same_posts': same_posts,
         }
     )
 

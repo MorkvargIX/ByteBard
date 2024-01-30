@@ -8,7 +8,6 @@
 
 <main class="container">
 
-
     <div class="row g-5">
       <div class="col-md-8">
         <h3 class="pb-4 mb-4 border-bottom rounded posts-main-header">
@@ -16,15 +15,21 @@
         </h3>
 
         {% for post in all_posts %}
-        <div class="blog-post rounded">
+        <div class="blog-post rounded" id="blog-post-{{ post.id }}">
           <div class="border-post-elements">
             <div class="list-post-body">
-              <h2 class="display-5 link-body-emphasis mb-1 post-title fw-bold">{{ post.title|title }}</h2>
+              <div class="d-flex justify-content-between">
+                <h2 class="display-5 link-body-emphasis mb-1 post-title fw-bold">{{ post.title|title }}</h2>
+                {% include "blog/post/includes/post_settings.html" %}
+              </div>
+
               <p class="blog-post-meta">{{ post.publish }} | <a href="{% url 'blog:post_list_by_author' author=post.author %}">{{ post.author }}</a></p>
               <hr>
               <p>{{ post.body|markdown|truncatewords_html:60 }}</p>
             </div>
+
             <hr>
+
             <div class="post-statistic-wrapper">
               {% include "blog/post/includes/post_info.html" %}
               <div class="post-statistic-element post-statistic-link">
@@ -33,6 +38,7 @@
                 </a>
               </div>
             </div>
+
           </div>
         </div>
 

@@ -28,6 +28,20 @@ class CreationPostForm(forms.ModelForm):
             'tags': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Write tags'}),
         }
 
+    def clean_tags(self):
+        tags = self.cleaned_data['tags']
+
+        min_length = 3
+        max_length = 20
+
+        for tag in tags:
+            if len(tag) < min_length:
+                self.add_error('tags', forms.ValidationError(f"All tags must be at least {min_length} characters long"))
+            if len(tag) > max_length:
+                self.add_error('tags', forms.ValidationError(f"All tags must be at most {max_length} characters long"))
+
+        return tags
+
 
 class SearchFrom(forms.Form):
     query = forms.CharField()

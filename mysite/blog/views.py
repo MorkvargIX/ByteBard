@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.db.models import Count, F, Q
 from django.utils.text import slugify
 from django.contrib.auth import login
@@ -118,6 +118,43 @@ def post_create(request):
             post.save()
     form = CreationPostForm()
     return render(request, 'blog/post/create.html', {'form': form, 'recent_posts': recent_posts})
+
+
+@login_required(login_url='blog:user_login')
+def post_edit(request, post_id):
+    recent_posts = Post.published.all()[:5]
+    post = get_object_or_404(Post, pk=post_id, author=request.user)
+
+    if request.method == 'POST':
+        form = CreationPostForm(data=request.POST)
+        if form.is_valid():
+            post.title = form.cleaned_data['title']
+            post.body = form.cleaned_data['body']
+            tags = form.cleaned_data['tags']
+            post.tags.clear()
+            for tag in tags:
+                tag_instance, created = Tag.objects.get_or_create(name=tag)
+                post.tags.add(tag_instance)
+            post.save()
+            return redirect('blog:post_list')
+
+    form = CreationPostForm()
+    form.fields['title'].initial = post.title
+    form.fields['body'].initial = post.body
+    tags_list = [tag.name for tag in post.tags.all()]
+    form.fields['tags'].initial = ', '.join(tags_list)
+    request.GET.post_id = post_id
+    context = {'form': form, 'recent_posts': recent_posts}
+    return render(request, 'blog/post/edit.html', context)
+
+
+@require_POST
+def post_delete(request, post_id):
+    post = get_object_or_404(Post, pk=post_id, author=request.user)
+    if post:
+        post.delete()
+        return redirect('blog:post_list')
+    return HttpResponseBadRequest(f"You don't have permissions for this operation", status=403)
 
 
 def user_registration(request):

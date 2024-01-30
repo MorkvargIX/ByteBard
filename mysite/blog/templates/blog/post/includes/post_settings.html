@@ -1,0 +1,27 @@
+{% load static %}
+
+{% if request.user == post.author %}
+  <div class="dropdown drop-down-ellipsis">
+    <span data-bs-toggle="dropdown" >
+      &#8942;
+    </span>
+
+    <ul class="dropdown-menu">
+      <li class="post-menu-item">
+          <a href="{% url 'blog:post_edit' post.id %}?post_id={{post.id}}" class="dropdown-item" type="submit">
+            <img src="{% static 'img/edit.png' %}" alt="#edit" style="max-width: 24px; max-height: 24px;"> Edit
+          </a>
+      </li>
+
+      <li class="post-menu-item">
+        <form action="{% url 'blog:post_delete' post.id %}" method="post">
+          {% csrf_token %}
+          <button class="dropdown-item" type="submit">
+            <img src="{% static 'img/delete.png' %}" alt="#delete" style="max-width: 24px; max-height: 24px;"> Delete
+          </button>
+        </form>
+      </li>
+
+    </ul>
+  </div>
+{% endif %}

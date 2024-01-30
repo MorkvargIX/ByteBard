@@ -1,0 +1,8 @@
+{% extends "blog/main_editor.html" %}
+
+{% block title %} Update post {% endblock%}
+
+{% block header %} Updating post {% endblock %}
+
+{% block form_start %} <form class="form" action="{% url 'blog:post_edit' request.GET.post_id %}" method="post"> {% csrf_token %} {% endblock %}
+{% block form_end %} </form> {% endblock %}

@@ -205,6 +205,21 @@ input[type="submit"]{
     padding-top: 20px;
 }
 
+.drop-down-ellipsis span{
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.post-menu-item button:hover {
+  background-color: #ababab !important;
+  color: #fff !important;
+}
+
+.post-menu-item a:hover {
+  background-color: #ababab !important;
+  color: #fff !important;
+}
+
 .blog-description{
     font-size: 24px;
     padding: 0;
@@ -270,8 +285,6 @@ input[type="submit"]{
 .active-element-counter{
     font-size: 26px;
 }
-
-
 
 .like-elements p{
     pointer-events: none;

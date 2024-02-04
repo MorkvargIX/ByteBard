@@ -1,7 +1,10 @@
 import json
 
 from datetime import datetime
+from asgiref.sync import sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
+
+from .models import User, Post, Comment
 
 
 class CommentConsumer(AsyncWebsocketConsumer):
@@ -21,8 +24,20 @@ class CommentConsumer(AsyncWebsocketConsumer):
         username = text_data_json['username']
         created = datetime.now().isoformat()
         message = text_data_json['message']
-  
-        await self.channel_layer.group_send(self.post_group_name, {'type': 'post_message', 'id': 80, 'username': username, 'publish': created, 'message': message})
+        post_id = text_data_json['post_id']
+
+        post = await sync_to_async(Post.objects.get)(pk=post_id)
+        user = await sync_to_async(User.objects.get)(username=username)
+
+        comment = await sync_to_async(Comment.objects.create)(post=post, author=user, body=message)
+
+        await self.channel_layer.group_send(self.post_group_name, {
+            'type': 'post_message',
+            'id': comment.id,
+            'username': username,
+            'publish': created,
+            'message': message
+        })
 
     async def post_message(self, event):
         message = event["message"]

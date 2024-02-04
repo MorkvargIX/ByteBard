@@ -1,5 +1,5 @@
-<form method="post" class="comment-form" action="{% url 'blog:post_comment' post.id %}">
+<form method="post" class="comment-form" action="#">
     {{ comment_form.body }}
     {% csrf_token %}
-    <button type="submit" class="comment-submit-button" data-post-id="{{ post.id }}">Add Comment</button>
+    <button type="submit" class="comment-submit-button" data-post-id="{{ post.id }}" data-user-username="{{user.username}}">Add Comment</button>
 </form>

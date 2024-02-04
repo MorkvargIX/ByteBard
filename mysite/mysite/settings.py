@@ -16,6 +16,9 @@ ALLOWED_HOSTS = []
 SITE_ID = 1
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -26,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.postgres',
+
     'taggit',
     'martor',
     'django_social_share',
@@ -61,8 +65,15 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'mysite.wsgi.application'
-
+ASGI_APPLICATION = 'mysite.asgi.application'
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 DATABASES = {
     'default': {

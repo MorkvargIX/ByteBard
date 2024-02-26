@@ -4,7 +4,14 @@ from pathlib import Path
 
 
 conf = configparser.ConfigParser()
-conf.read('/home/maks/proj/ByteBard/.config')
+
+conf_path = '/home/maks/proj/ByteBard/.config'
+
+if os.path.exists(conf_path):
+    conf.read(conf_path)
+else:
+    conf.read('/app/.config')
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = conf.get('server', 'secret_key')
@@ -66,11 +73,12 @@ TEMPLATES = [
 ]
 
 ASGI_APPLICATION = 'mysite.asgi.application'
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [("redis", 6379)],
         },
     },
 }
@@ -78,6 +86,8 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
+        'HOST': conf.get('database', 'host'),
+        'PORT': conf.get('database', 'port'),
         'NAME': conf.get('database', 'name'),
         'USER': conf.get('database', 'user'),
         'PASSWORD': conf.get('database', 'password'),

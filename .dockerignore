@@ -1,0 +1,5 @@
+.venv
+.git
+.idea
+task_list
+Dockerfile

@@ -40,8 +40,9 @@ class CommentConsumer(AsyncWebsocketConsumer):
         })
 
     async def post_message(self, event):
+        comment_id = event["id"]
         message = event["message"]
         username = event["username"]
         publish = event["publish"]
 
-        await self.send(text_data=json.dumps({'id': 80, 'username': username, 'publish': publish, 'message': message}))
+        await self.send(text_data=json.dumps({'id': comment_id, 'username': username, 'publish': publish, 'message': message}))
